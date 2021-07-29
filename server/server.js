@@ -1,29 +1,22 @@
 const express = require("express");
-const app = express();
+const socketIO = require("socket.io");
 const http = require("http");
+const router = require("./router");
+
+const app = express();
 const server = http.createServer(app);
-const cors = require("cors");
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true,
-  },
-});
+const io = socketIO(server);
 
-// NOTE retriving current channels informations
-app.get("/getChannels", (req, res) => {
-  res.json({ channels: STATIC_CHANNELS });
-});
-
-const port = 8000;
+app.use(router);
 
 io.on("connection", (socket) => {
-  socket.emit("connection", null);
-  console.log("New user connected");
+  console.log("we have new connection");
+  socket.emit("welcome to server");
+  socket.on("disconnection", () => {
+    console.log("A user has left");
+  });
 });
 
-server.listen(port, () => {
-  console.log(`server is runnin at ${port}`);
-});
+const port = process.env.PORT || 8000;
+
+server.listen(port, () => console.log(`server is running at ${port}`));
