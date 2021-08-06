@@ -8,13 +8,14 @@ const MusicApp = () => {
       artist: "Unknown",
       img_src:
         "https://mir-s3-cdn-cf.behance.net/projects/404/7e3520114084301.Y3JvcCwxMDgwLDg0NCwwLDExNw.gif",
-      src: "client/src/components/Music/Loyalty_Freak_Music_-_04_-_You_know_why.mp3",
+      src: "./song1.mp3",
     },
     {
       title: "Song 2",
       artist: "Arka",
-      img_src: "../Images/index.jpg",
-      src: "client/src/components/Music/stardust-__-FREE-DOWNLOAD-CC0.mp3",
+      img_src:
+        "https://mir-s3-cdn-cf.behance.net/projects/404/7e3520114084301.Y3JvcCwxMDgwLDg0NCwwLDExNw.gif",
+      src: "./song2.mp3",
     },
   ]);
 
@@ -30,7 +31,12 @@ const MusicApp = () => {
 
   return (
     <div className="MusicApp">
-      <Player song={songs[currentSongIndex]} nextSong={songs[nextSongIndex]} />
+      <Player
+        currentSongIndex={currentSongIndex}
+        setCurrentSongIndex={setCurrentSongIndex}
+        nextSongIndex={nextSongIndex}
+        songs={songs}
+      />
     </div>
   );
 };

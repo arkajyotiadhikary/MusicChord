@@ -7,13 +7,16 @@ import {
   faBackward,
 } from "@fortawesome/free-solid-svg-icons";
 
-const PlayerController = () => {
+const PlayerController = (props) => {
   return (
     <div className="c-player--controls">
       <button className="skip-btn">
         <FontAwesomeIcon icon={faBackward} />
       </button>
-      <button className="play-btn">
+      <button
+        onClick={() => props.setIsPlaying(!props.isPlaying)}
+        className="play-btn"
+      >
         <FontAwesomeIcon icon={faPlay} />
       </button>
       <button className="skip-btn">
