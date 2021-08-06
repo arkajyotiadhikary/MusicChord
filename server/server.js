@@ -5,15 +5,31 @@ const router = require("./router");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+  cors: {
+    origin: "localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
+  },
+});
 
 app.use(router);
 
 io.on("connection", (socket) => {
   console.log("we have new connection");
   socket.emit("welcome to server");
-  socket.on("disconnection", () => {
+  socket.on("disconnect", () => {
     console.log("A user has left");
+  });
+
+  socket.on("Join", ({ name, room }, callback) => {
+    console.log(name, room);
+
+    // const error = true;
+    // if (error) {
+    //   callback({ error: "error" });
+    // }
   });
 });
 
