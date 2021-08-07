@@ -8,15 +8,13 @@ const MusicApp = () => {
     {
       title: "You_know_why",
       artist: "Unknown",
-      img_src:
-        "https://mir-s3-cdn-cf.behance.net/projects/404/7e3520114084301.Y3JvcCwxMDgwLDg0NCwwLDExNw.gif",
+      img_src: "https://media.giphy.com/media/H62NM1ab7wzMXURdoi/giphy.gif",
       src: audio1,
     },
     {
       title: "Song 2",
       artist: "Arka",
-      img_src:
-        "https://mir-s3-cdn-cf.behance.net/projects/404/7e3520114084301.Y3JvcCwxMDgwLDg0NCwwLDExNw.gif",
+      img_src: "https://media.giphy.com/media/H62NM1ab7wzMXURdoi/giphy.gif",
       src: audio2,
     },
   ]);

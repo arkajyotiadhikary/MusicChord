@@ -24,14 +24,14 @@ const Player = (props) => {
       props.setCurrentSongIndex(() => {
         let temp = props.currentSongIndex;
         temp++;
-        if (temp > props.songs.lenght - 1) temp = 0;
+        if (temp > props.songs.length - 1) temp = 0;
         return temp;
       });
     } else {
       props.setCurrentSongIndex(() => {
         let temp = props.currentSongIndex;
         temp--;
-        if (temp < 0) temp = props.songs.lenght - 1;
+        if (temp < 0) temp = props.songs.length - 1;
         return temp;
       });
     }

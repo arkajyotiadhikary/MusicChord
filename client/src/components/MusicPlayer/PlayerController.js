@@ -10,16 +10,16 @@ import {
 const PlayerController = (props) => {
   return (
     <div className="c-player--controls">
-      <button className="skip-btn">
+      <button className="skip-btn" onClick={() => props.skipSong(false)}>
         <FontAwesomeIcon icon={faBackward} />
       </button>
       <button
         onClick={() => props.setIsPlaying(!props.isPlaying)}
         className="play-btn"
       >
-        <FontAwesomeIcon icon={faPlay} />
+        <FontAwesomeIcon icon={props.isPlaying ? faPause : faPlay} />
       </button>
-      <button className="skip-btn">
+      <button className="skip-btn" onClick={() => props.skipSong(true)}>
         <FontAwesomeIcon icon={faForward} />
       </button>
     </div>

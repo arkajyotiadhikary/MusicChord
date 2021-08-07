@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.weather-background {
+  background-image: url(./Images/clear.jpg);
+  background-size: cover;
+  background-position: bottom;
+  transition: 0.4 ease-out;
+}
+
+main {
+  min-height: 100vh;
+}
