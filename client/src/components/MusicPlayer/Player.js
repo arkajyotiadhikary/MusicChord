@@ -4,14 +4,20 @@ import PlayerController from "./PlayerController";
 import "./MusicApp.css";
 
 const Player = (props) => {
+  console.log(props);
+
   const audioEl = useRef(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    if (isPlaying) audioEl.current.play();
-    else audioEl.current.pause();
-  });
+    const fetchData = async () => {
+      console.log(isPlaying, await audioEl.current.play());
+      if (isPlaying) await audioEl.current.play();
+      else await audioEl.current.pause();
+    };
+    fetchData();
+  }, [isPlaying]);
 
   const skipSong = (forward = true) => {
     if (forward) {
@@ -30,6 +36,8 @@ const Player = (props) => {
       });
     }
   };
+
+  // console.log(props.songs[props.currentSongIndex].src);
 
   return (
     <div className="c-player">

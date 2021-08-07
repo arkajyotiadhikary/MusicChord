@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Player from "./Player";
+import audio1 from "./song1.mp3";
+import audio2 from "./song2.mp3";
 
 const MusicApp = () => {
   const [songs] = useState([
@@ -8,14 +10,14 @@ const MusicApp = () => {
       artist: "Unknown",
       img_src:
         "https://mir-s3-cdn-cf.behance.net/projects/404/7e3520114084301.Y3JvcCwxMDgwLDg0NCwwLDExNw.gif",
-      src: "./song1.mp3",
+      src: audio1,
     },
     {
       title: "Song 2",
       artist: "Arka",
       img_src:
         "https://mir-s3-cdn-cf.behance.net/projects/404/7e3520114084301.Y3JvcCwxMDgwLDg0NCwwLDExNw.gif",
-      src: "./song2.mp3",
+      src: audio2,
     },
   ]);
 
