@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import WeatherBackground from "./WeatherBackground";
 import "./WeatherApp.css";
-import Axios from "axios";
 import axios from "axios";
 
 const Api = {
@@ -11,6 +9,9 @@ const Api = {
 
 const WeatherApp = () => {
   const [weather, setWeather] = useState({});
+  const [temp, setTemp] = useState(0);
+  const [wind, setWind] = useState(0);
+  const [humidity, setHumidity] = useState(0);
 
   let time = new Date();
   let min = time.getMinutes();
@@ -20,22 +21,43 @@ const WeatherApp = () => {
     min = time.getMinutes();
   }, 1000);
 
-  console.log(min);
   useEffect(() => {
     const getWeather = async () => {
       try {
         const response = await axios.get(Api.base + Api.key);
-        setWeather(response);
-        console.log(response);
+        setWeather(response.data);
+        setTemp(response.data.main.temp - 273.15);
+        setWind(response.data.wind.speed);
+        setHumidity(response.data.main.humidity);
       } catch (error) {
         console.log(error);
       }
     };
     getWeather();
-    console.log("Updated");
   }, [min]);
 
-  return <h1>Weather</h1>;
+  console.log(weather);
+
+  return (
+    <div className="card">
+      <h2 className="weather-header">Weather</h2>
+      <h3 className="weather-type">
+        Cloudy
+        <span className="weather-span">
+          Wind {wind}km/h <span className="dot">•</span> Humidity {humidity}%
+        </span>
+      </h3>
+      <h1 className="weather-temp">{parseInt(temp)}°</h1>
+      <div className="sky">
+        <div className="sun"></div>
+        <div className="cloud">
+          <div className="circle-small"></div>
+          <div className="circle-tall"></div>
+          <div className="circle-medium"></div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default WeatherApp;
