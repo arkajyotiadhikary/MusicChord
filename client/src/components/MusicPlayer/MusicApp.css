@@ -6,18 +6,18 @@
 }
 
 body {
-  display: flex;
 }
 
 .MusicApp {
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   justify-content: center;
   min-height: 50vh;
 }
 
 .c-player {
   display: block;
+  width: 100%;
   background-color: rgb(38, 37, 37);
   padding: 2%;
   border-radius: 5px;

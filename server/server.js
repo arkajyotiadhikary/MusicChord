@@ -1,37 +1,34 @@
+// import
 const express = require("express");
 const socketIO = require("socket.io");
 const http = require("http");
-const router = require("./router");
+const router = require("./router/Router");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+// initialization
+dotenv.config();
+mongoose.connect(process.env.DATABASE_URI, () => {
+    console.log("Database conencted");
+});
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
-  cors: {
-    origin: "localhost:3000",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true,
-  },
+    cors: {
+        origin: "localhost:3000",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true,
+    },
 });
+const SocketIo = require("./SocketIo")(io);
 
+// middlewares
+app.use(express.json());
+app.use(cors());
 app.use(router);
-
-io.on("connection", (socket) => {
-  console.log("we have new connection");
-  socket.emit("welcome to server");
-  socket.on("disconnect", () => {
-    console.log("A user has left");
-  });
-
-  socket.on("Join", ({ name, room }, callback) => {
-    console.log(name, room);
-
-    // const error = true;
-    // if (error) {
-    //   callback({ error: "error" });
-    // }
-  });
-});
 
 const port = process.env.PORT || 8000;
 
