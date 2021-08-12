@@ -1,27 +1,21 @@
-import axios from "axios";
 import { useState } from "react";
-import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
-import "./Registration.css";
+import axios from "axios";
 
-const Signup = () => {
-    const [email, setEmail] = useState("");
+const Signin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
     const onSubmit = (e) => {
         e.preventDefault();
 
         const resistered = {
-            email: email,
             username: username,
             password: password,
         };
 
         axios
-            .post("http://localhost:8000/signup", resistered)
+            .get("http://localhost:8000/signin", resistered)
             .then((res) => console.log(res));
 
-        setEmail("");
         setUsername("");
         setPassword("");
     };
@@ -36,7 +30,7 @@ const Signup = () => {
                         </div>
                         <div className="card-body p-4 p-sm-5">
                             <h5 class="card-title text-center mb-5 fw-light fs-5">
-                                Sign Up
+                                Sign In
                             </h5>
                             <form onSubmit={() => onSubmit}>
                                 <div className="form-floating mb-3">
@@ -55,20 +49,7 @@ const Signup = () => {
                                         Username
                                     </label>
                                 </div>
-                                <div className="form-floating mb-3">
-                                    <input
-                                        type="email"
-                                        class="form-control"
-                                        id="floatingInputEmail"
-                                        placeholder="name@example.com"
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
-                                    />
-                                    <label for="floatingInputEmail">
-                                        Email address
-                                    </label>
-                                </div>
+
                                 <div class="form-floating mb-3">
                                     <input
                                         type="password"
@@ -93,9 +74,9 @@ const Signup = () => {
                                 </div>
                                 <a
                                     class="d-block text-center mt-2 small"
-                                    href="/signin"
+                                    href="/signup"
                                 >
-                                    Have an account? Sign In
+                                    Create an account. Sign Up
                                 </a>
                             </form>
                         </div>
@@ -106,4 +87,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default Signin;

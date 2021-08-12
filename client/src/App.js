@@ -10,12 +10,13 @@ import WeatherApp from "./components/Weather/WeatherApp";
 import Main from "./components/main/Main";
 import LoginApp from "./components/SignUp/LoginApp";
 import Signup from "./components/SignUp/Signup";
+import Signin from "./components/SignUp/Signin";
 
 class App extends React.Component {
     render() {
         return (
             <Router>
-                <Route path="/login" component={LoginApp} />
+                <Route path="/signin" component={Signin} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/" exact component={Join} />
                 <Route path="/chat" component={Chat} />
