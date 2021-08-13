@@ -26,8 +26,7 @@ const WeatherApp = () => {
             try {
                 const response = await axios.get(Api.base + Api.key);
                 setWeather(response.data);
-                // setTemp(response.data.main.temp - 273.15);
-                setTemp(20);
+                setTemp(response.data.main.temp - 273.15);
                 setWind(response.data.wind.speed);
                 setHumidity(response.data.main.humidity);
             } catch (error) {
@@ -40,7 +39,7 @@ const WeatherApp = () => {
     console.log(weather);
 
     return (
-        <div className="card shadow bg-transparent">
+        <div className="card bg-transparent">
             <div className="card-body">
                 <h2 className="weather-header">Weather</h2>
                 <h3 className={temp > 30 ? "sun" : "rain"}>Cloudy</h3>

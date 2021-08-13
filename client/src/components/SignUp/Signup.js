@@ -4,26 +4,33 @@ import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 import "./Registration.css";
 
 const Signup = () => {
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [formData, setFormData] = useState({
+        email: "",
+        username: "",
+        password: "",
+    });
 
-    const onSubmit = (e) => {
+    const { email, username, password } = formData;
+
+    const handleChange = (e) => {
+        console.log(formData);
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        const resistered = {
-            email: email,
-            username: username,
-            password: password,
-        };
-
         axios
-            .post("http://localhost:8000/signup", resistered)
+            .post("http://localhost:8000/signup", formData)
             .then((res) => console.log(res));
-
-        setEmail("");
-        setUsername("");
-        setPassword("");
+        setFormData({
+            ...formData,
+            email: "",
+            username: "",
+            password: "",
+        });
     };
 
     return (
@@ -38,7 +45,7 @@ const Signup = () => {
                             <h5 class="card-title text-center mb-5 fw-light fs-5">
                                 Sign Up
                             </h5>
-                            <form onSubmit={() => onSubmit}>
+                            <form onSubmit={handleSubmit}>
                                 <div className="form-floating mb-3">
                                     <input
                                         type="text"
@@ -46,10 +53,10 @@ const Signup = () => {
                                         id="floatingInputUsername"
                                         placeholder="myusername"
                                         required
-                                        autofocus
-                                        onChange={(e) =>
-                                            setUsername(e.target.value)
-                                        }
+                                        autoFocus
+                                        value={username}
+                                        name="username"
+                                        onChange={handleChange}
                                     ></input>
                                     <label for="floatingInputUsername">
                                         Username
@@ -61,9 +68,9 @@ const Signup = () => {
                                         class="form-control"
                                         id="floatingInputEmail"
                                         placeholder="name@example.com"
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
+                                        name="email"
+                                        value={email}
+                                        onChange={handleChange}
                                     />
                                     <label for="floatingInputEmail">
                                         Email address
@@ -75,9 +82,9 @@ const Signup = () => {
                                         class="form-control"
                                         id="floatingPassword"
                                         placeholder="Password"
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        }
+                                        value={password}
+                                        name="password"
+                                        onChange={handleChange}
                                     />
                                     <label for="floatingPassword">
                                         Password

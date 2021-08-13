@@ -1,5 +1,9 @@
 const Button = () => {
-    return <button type="Submit">Ok</button>;
+    return (
+        <button className="btn btn-dark rounded-circle" type="Submit">
+            &#9658;
+        </button>
+    );
 };
 
 export default Button;
