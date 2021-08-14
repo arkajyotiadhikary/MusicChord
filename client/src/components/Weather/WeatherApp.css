@@ -55,15 +55,6 @@
     font-size: 0.9em;
 }
 
-.sky {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #03a9f4;
-    -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.2s;
-}
-
 .sun {
     position: relative;
     top: -3px;
@@ -99,8 +90,8 @@
     position: absolute;
     top: -10px;
     left: -22px;
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: #fff;
     box-shadow: 50px -6px 0 6px #fff, 25px -19px 0 10px #fff;

@@ -16,6 +16,7 @@ const Main = () => {
                     <Chat />
                 </div>
                 <div className="col-md-3">
+                    <div className="playerBackground"></div>
                     <MusicApp />
                     <ButtonBar />
                 </div>

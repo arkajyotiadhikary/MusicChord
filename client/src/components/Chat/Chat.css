@@ -4,31 +4,38 @@
 .col-inside-lg {
     padding: 20px;
 }
-.chat {
-    height: calc(100vh - 180px);
-    overflow-x: auto;
-}
-.decor-default {
-    background-color: #ffffff;
-}
-.chat-users h6 {
-    font-size: 20px;
-    margin: 0 0 20px;
-}
-.chat-users .user {
-    position: relative;
-    padding: 0 0 0 50px;
-    display: block;
-    cursor: pointer;
-    margin: 0 0 20px;
-}
+
 .chat-users .user .avatar {
+    width: 40px;
+    height: 40px;
     top: 0;
     left: 0;
 }
+
+.chat-users .user .status {
+    bottom: 0;
+    left: 28px;
+}
+.chat-users .user .name {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.chat-users .user .mood {
+    font: 200 14px/20px "Raleway", sans-serif;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chat {
+    height: calc(100vh - 11rem);
+    overflow-x: auto;
+}
 .chat .avatar {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     position: absolute;
 }
 .chat .avatar img {
@@ -36,6 +43,7 @@
     border-radius: 20px;
     height: 100%;
 }
+
 .chat .avatar .status.off {
     border: 1px solid #5a5a5a;
     background: #ffffff;
@@ -49,32 +57,33 @@
 .chat .avatar .status.offline {
     background: #ed4e6e;
 }
-.chat-users .user .status {
-    bottom: 0;
-    left: 28px;
-}
 .chat .avatar .status {
     width: 10px;
     height: 10px;
     border-radius: 5px;
     position: absolute;
 }
-.chat-users .user .name {
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.chat-users .user .mood {
-    font: 200 14px/20px "Raleway", sans-serif;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+/*****************CHAT BODY *******************/
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255, 255, 255) rgb(255, 255, 255);
 }
 
-/*****************CHAT BODY *******************/
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 1px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgb(0, 0, 0);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(61, 61, 61);
+    border-radius: 20px;
+    border: 3px solid rgb(44, 44, 44);
+}
+
 .chat-body h6 {
     font-size: 20px;
     margin: 0 0 20px;
@@ -181,13 +190,17 @@
 /**************ADD FORM ***************/
 .answer-add {
     clear: both;
+    color: #5a5a5a;
     position: relative;
     margin: 5px;
-    padding: 20px;
-    background: #46be8a;
+    padding: 10px;
+    border-radius: 20px;
+    background: #caf0f8;
 }
 .answer-add input {
     border: none;
+    border-radius: 20px;
+
     background: none;
     display: block;
     width: 100%;
@@ -206,13 +219,10 @@
     right: 56px;
 }
 .answer-add .answer-btn {
-    display: block;
     cursor: pointer;
-    width: 36px;
-    height: 36px;
-    position: absolute;
-    top: 50%;
-    margin-top: -18px;
+    color: white;
+    background-color: #4895ef;
+    border-radius: 10px;
 }
 .answer-add .answer-btn-2 {
     background: url("http://91.234.35.26/iwiki-admin/v1.0.0/admin/img/icon-41.png")

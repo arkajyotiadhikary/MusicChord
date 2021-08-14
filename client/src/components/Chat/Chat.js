@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import query_string from "query-string";
 import socket_io_client from "socket.io-client";
-import ScrollToBottom from "react-scroll-to-bottom";
+import Message from "./Message";
 import User from "./User";
 import "./Chat.css";
+
 let socket;
 const ENDPOINT = "localhost:8000";
 
@@ -40,14 +41,19 @@ const Chat = ({ location }) => {
     return (
         <div className="content container-fluid bootstrap snippets bootdey h-100">
             <div className="row row-broken">
-                <div className="col-sm-3 col-xs-12">
-                    <div
-                        className={`col-inside-lg decor-default chat`}
-                        tabIndex="5000"
-                    >
-                        <h6>Online</h6>
-                        <div className="chat-users">
-                            <User />
+                <div className="col-sm-3 col-xs-12 overflow-auto">
+                    <div className="card">
+                        <div className="card-body p-4">
+                            <h6>Online</h6>
+                            <div className="chat-users text-center">
+                                <User />
+                                <User />
+                                <User />
+                                <User />
+                                <User />
+                                <User />
+                                <User />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -56,62 +62,19 @@ const Chat = ({ location }) => {
                     <div className="col-inside-lg decor-default chat">
                         <div className="chat-body">
                             <div className="answer left">
-                                <div className="avatar">
-                                    <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                        alt="User name"
-                                    />
-                                    <div class="status offline"></div>
-                                </div>
-                                <div class="name">Alexander Herthic</div>
-                                <div class="text">
-                                    Lorem ipsum dolor amet, consectetur
-                                    adipisicing elit Lorem ipsum dolor amet,
-                                    consectetur adipisicing elit Lorem ipsum
-                                    dolor amet, consectetur adiping elit
-                                </div>
-                                <div class="time">5 min ago</div>
+                                <Message />
                             </div>
                             <div class="answer right">
-                                <div class="avatar">
-                                    <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                        alt="User name"
-                                    />
-                                    <div class="status offline"></div>
-                                </div>
-                                <div class="name">Alexander Herthic</div>
-                                <div class="text">
-                                    Lorem ipsum dolor amet, consectetur
-                                    adipisicing elit Lorem ipsum dolor amet,
-                                    consectetur adipisicing elit Lorem ipsum
-                                    dolor amet, consectetur adiping elit
-                                </div>
-                                <div class="time">5 min ago</div>
+                                <Message />
                             </div>
                             <div class="answer right">
-                                <div class="avatar">
-                                    <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                        alt="User name"
-                                    />
-                                    <div class="status offline"></div>
-                                </div>
-                                <div class="name">Alexander Herthic</div>
-                                <div class="text">
-                                    Lorem ipsum dolor amet, consectetur
-                                    adipisicing elit Lorem ipsum dolor amet,
-                                    consectetur adipisicing elit Lorem ipsum
-                                    dolor amet, consectetur adiping elit
-                                </div>
-                                <div class="time">5 min ago</div>
+                                <Message />
                             </div>
                         </div>
                     </div>
-                    <div class="answer-add">
+                    <div class="d-flex answer-add">
                         <input placeholder="Write a message" />
-                        <span class="answer-btn answer-btn-1"></span>
-                        <span class="answer-btn answer-btn-2"></span>
+                        <button className="btn  ms-1 answer-btn">send</button>
                     </div>
                 </div>
             </div>

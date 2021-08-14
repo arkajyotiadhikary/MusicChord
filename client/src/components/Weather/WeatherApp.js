@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCloudSun } from "@fortawesome/free-solid-svg-icons";
 import "./WeatherApp.css";
 import axios from "axios";
 
@@ -42,20 +44,16 @@ const WeatherApp = () => {
         <div className="card bg-transparent">
             <div className="card-body">
                 <h2 className="weather-header">Weather</h2>
-                <h3 className={temp > 30 ? "sun" : "rain"}>Cloudy</h3>
+                <h3>Cloudy</h3>
                 <span className="h5">
                     Wind {wind}km/h <span className="dot">•</span> Humidity{" "}
                     {humidity}%
                 </span>
                 <div className="d-flex align-items-center justify-content-between mt-4">
-                    <div className="sky">
-                        <div className="sun"></div>
-                        <div className="cloud">
-                            <div className="circle-small"></div>
-                            <div className="circle-tall"></div>
-                            <div className="circle-medium"></div>
-                        </div>
-                    </div>
+                    <FontAwesomeIcon
+                        className="h1 text-primary"
+                        icon={faCloudSun}
+                    />
                     <div className="h1">{parseInt(temp)}°</div>
                 </div>
             </div>
