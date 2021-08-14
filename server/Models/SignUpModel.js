@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { string } = require("prop-types");
 
 const signUpTemplate = mongoose.Schema({
     username: { type: String, required: true },
