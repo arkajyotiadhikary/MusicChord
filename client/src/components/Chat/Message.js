@@ -1,6 +1,6 @@
 const Message = () => {
     return (
-        <div>
+        <div className="answer left">
             <div className="avatar">
                 <img
                     src="https://bootdey.com/img/Content/avatar/avatar1.png"

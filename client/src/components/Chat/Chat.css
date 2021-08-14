@@ -191,7 +191,7 @@
 .answer-add {
     clear: both;
     color: #5a5a5a;
-    position: relative;
+    /* position: relative; */
     margin: 5px;
     padding: 10px;
     border-radius: 20px;

@@ -39,22 +39,25 @@ const Player = (props) => {
     // console.log(props.songs[props.currentSongIndex].src);
 
     return (
-        <div className="c-player">
-            <audio
-                src={props.songs[props.currentSongIndex].src}
-                ref={audioEl}
-            ></audio>
-            <PlayerDetails song={props.songs[props.currentSongIndex]} />
-            <PlayerController
-                isPlaying={isPlaying}
-                setIsPlaying={setIsPlaying}
-                skipSong={skipSong}
-            />
-            <p>
-                <strong>Next Up</strong>{" "}
-                {props.songs[props.nextSongIndex].title} by{" "}
-                {props.songs[props.nextSongIndex].artist}
-            </p>
+        <div className="card border-0 text-center c-player">
+            <div className="card-body">
+                <div className="playerBackground"></div>
+                <audio
+                    src={props.songs[props.currentSongIndex].src}
+                    ref={audioEl}
+                ></audio>
+                <PlayerDetails song={props.songs[props.currentSongIndex]} />
+                <PlayerController
+                    isPlaying={isPlaying}
+                    setIsPlaying={setIsPlaying}
+                    skipSong={skipSong}
+                />
+                <p>
+                    <strong>Next Up</strong>{" "}
+                    {props.songs[props.nextSongIndex].title} by{" "}
+                    {props.songs[props.nextSongIndex].artist}
+                </p>
+            </div>
         </div>
     );
 };
