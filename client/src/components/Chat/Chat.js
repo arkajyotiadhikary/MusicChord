@@ -39,13 +39,23 @@ const Chat = ({ location }) => {
     // }, [location.search]);
 
     return (
-        <div className="content container-fluid bootstrap snippets bootdey h-100">
-            <div className="row row-broken">
-                <div className="col-sm-3 col-xs-12 overflow-auto">
-                    <div className="card">
+        <div className="row">
+            <div className="col-xs-12 col-sm-3">
+                <div className="d-flex flex-column justify-content-between h-100">
+                    <div
+                        className="card"
+                        style={{ height: "90vh", overflow: "scroll" }}
+                    >
                         <div className="card-body p-4">
                             <h6>Online</h6>
                             <div className="chat-users text-center">
+                                <User />
+                                <User />
+                                <User />
+                                <User />
+                                <User />
+                                <User />
+                                <User />
                                 <User />
                                 <User />
                                 <User />
@@ -57,24 +67,32 @@ const Chat = ({ location }) => {
                         </div>
                     </div>
                 </div>
-                <div className="col-sm-9 col-xs-12 " tabindex="5001">
-                    <h6>chat</h6>
-                    <div className="col-inside-lg decor-default chat">
-                        <div className="chat-body">
-                            <div className="answer left">
-                                <Message />
-                            </div>
-                            <div class="answer right">
-                                <Message />
-                            </div>
-                            <div class="answer right">
-                                <Message />
-                            </div>
+            </div>
+            <div className="col-xs-12 col-sm-9">
+                <div className="d-flex flex-column justify-content-between h-100">
+                    <div className="card border-0 chat overflow-y-scroll">
+                        <div className="card-body chat-body">
+                            <h6>chat</h6>
+                            <Message />
+                            <Message />
+                            <Message />
+                            <Message />
+                            <Message />
+                            <Message />
+                            <Message />
+                            <Message />
+                            <Message />
+                            <Message />
                         </div>
                     </div>
-                    <div class="d-flex answer-add">
-                        <input placeholder="Write a message" />
-                        <button className="btn  ms-1 answer-btn">send</button>
+                    <div className="card-footer d-flex bg-white border-0">
+                        <input
+                            className="form-control rounded-pill"
+                            placeholder="Write a message"
+                        />
+                        <button className="btn btn-info text-light rounded-pill ms-1 answer-btn">
+                            send
+                        </button>
                     </div>
                 </div>
             </div>
