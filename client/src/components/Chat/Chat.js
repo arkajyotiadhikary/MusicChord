@@ -90,7 +90,7 @@ const Chat = ({ location }) => {
                             placeholder="Write a message"
                             autoFocus
                         />
-                        <button className="btn rounded-pill ms-1 answer-btn">
+                        <button className="btn rounded-pill ms-3 answer-btn">
                             <FontAwesomeIcon icon={faPaperPlane} />
                         </button>
                     </div>

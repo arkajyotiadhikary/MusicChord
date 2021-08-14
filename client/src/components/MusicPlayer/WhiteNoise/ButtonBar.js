@@ -8,7 +8,7 @@ import {
 
 const ButtonBar = () => {
     return (
-        <div className="card border-0 my-2">
+        <div className="card border-0">
             <div className="d-flex justify-content-between my-3 mx-3">
                 <Button font={faCloudRain} />
                 <Button font={faWind} />

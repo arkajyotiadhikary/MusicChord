@@ -12,18 +12,6 @@
     min-height: 50vh;
 }
 
-/* .c-player {
-    display: block;
-    width: 100%;
-} */
-/* 
-.c-player > h4 {
-    color: rgb(33, 57, 78);
-    text-align: center;
-    font-size: 20px;
-    font-weight: 400;
-    text-transform: uppercase;
-} */
 .c-player p {
     color: rgb(134, 129, 182);
     font-size: 14px;
@@ -49,7 +37,7 @@
 .c-player--details .detail-title {
     color: rgb(34, 84, 128);
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
     text-shadow: 5px 5px 15px rgba(225, 219, 201, 0.433),
         -5px 5px 15px rgba(203, 157, 218, 0.542),
         -5px -5px 15px rgba(215, 189, 245, 0.487),
@@ -79,13 +67,15 @@
     z-index: 10;
     display: flex;
     margin: 0 20px;
+    background-color: rgb(216, 187, 113);
+    color: aliceblue;
     padding: 8%;
     border-radius: 50%;
     box-shadow: rgba(192, 187, 187, 0.25) 0px 14px 28px,
         rgba(146, 131, 131, 0.22) 0px 10px 10px;
     border: none;
     outline: none;
-    font-size: 10px;
+    font-size: 14px;
     cursor: pointer;
 }
 

@@ -45,16 +45,16 @@ const WeatherApp = () => {
             <div className="card-body bg-light">
                 <h2 className="weather-header">Weather</h2>
                 <h3>Cloudy</h3>
-                <span className="h5">
+                <span className="h5 text-secondary">
                     Wind {wind}km/h <span className="dot">•</span> Humidity{" "}
                     {humidity}%
                 </span>
                 <div className="d-flex align-items-center justify-content-between mt-4">
                     <FontAwesomeIcon
-                        className="h1 text-primary"
+                        className="h1 text-secondary"
                         icon={faCloudSun}
                     />
-                    <div className="h1">{parseInt(temp)}°</div>
+                    <div className="h1 text-secondary">{parseInt(temp)}°</div>
                 </div>
             </div>
         </div>
