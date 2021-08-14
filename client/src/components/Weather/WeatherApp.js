@@ -41,8 +41,8 @@ const WeatherApp = () => {
     console.log(weather);
 
     return (
-        <div className="card bg-transparent">
-            <div className="card-body">
+        <div className="card border-0 ps-2 bg-transparent">
+            <div className="card-body bg-light">
                 <h2 className="weather-header">Weather</h2>
                 <h3>Cloudy</h3>
                 <span className="h5">

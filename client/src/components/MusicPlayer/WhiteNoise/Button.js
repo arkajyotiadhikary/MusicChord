@@ -1,7 +1,9 @@
-const Button = () => {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const Button = (prop) => {
     return (
-        <button className="btn btn-dark rounded-circle" type="Submit">
-            &#9658;
+        <button className="btn btn-light shadow rounded-circle" type="Submit">
+            <FontAwesomeIcon icon={prop.font} />
         </button>
     );
 };

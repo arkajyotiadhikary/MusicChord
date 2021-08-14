@@ -20,11 +20,8 @@ const Main = () => {
                     </div>
                     <div className="col-lg-3">
                         <MusicApp />
-                        {/* <div className="playerBackground"></div> */}
-                        {/* <div className="d-flex flex-column justify-content-between h-100">
-                        </div> */}
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-3 ">
                         <WeatherApp />
                     </div>
                 </div>

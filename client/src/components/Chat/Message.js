@@ -1,6 +1,10 @@
-const Message = () => {
+const Message = (prop) => {
     return (
-        <div className="answer left">
+        <div
+            className={
+                prop.sender === "server" ? "answer left" : "answer right"
+            }
+        >
             <div className="avatar">
                 <img
                     src="https://bootdey.com/img/Content/avatar/avatar1.png"

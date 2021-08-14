@@ -1,17 +1,13 @@
-.row.row-broken {
-    padding-bottom: 0;
-}
-.col-inside-lg {
-    padding: 20px;
-}
-
 .chat-users .user .avatar {
     width: 40px;
     height: 40px;
     top: 0;
     left: 0;
 }
-
+.online-users {
+    height: 80vh;
+    overflow-x: auto;
+}
 .chat-users .user .status {
     bottom: 0;
     left: 28px;
@@ -75,13 +71,13 @@
 }
 
 *::-webkit-scrollbar-track {
-    background: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: rgb(61, 61, 61);
+    background-color: rgb(255, 255, 255);
     border-radius: 20px;
-    border: 3px solid rgb(44, 44, 44);
+    border: 3px solid rgb(255, 255, 255);
 }
 
 .chat-body h6 {
@@ -126,6 +122,7 @@
     bottom: 0;
 }
 .chat-body .answer.left .text {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background: #ebebeb;
     color: #333333;
     border-radius: 8px 8px 8px 0;
@@ -173,13 +170,14 @@
     left: 4px;
 }
 .chat-body .answer.right .text {
-    background: #7266ba;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background: #6384a0;
     color: #ffffff;
     border-radius: 8px 8px 0 8px;
 }
 .chat-body .answer.right .text:before {
     right: -30px;
-    border-left-color: #7266ba;
+    border-left-color: #6384a0;
     border-left-width: 12px;
 }
 .chat-body .answer.right .time {
@@ -195,7 +193,7 @@
     margin: 5px;
     padding: 10px;
     border-radius: 20px;
-    background: #caf0f8;
+    background: #76c893;
 }
 .answer-add input {
     border: none;
@@ -218,10 +216,10 @@
         50% 50% no-repeat;
     right: 56px;
 }
-.answer-add .answer-btn {
+.answer-btn {
     cursor: pointer;
     color: white;
-    background-color: #4895ef;
+    background-color: #76c893;
     border-radius: 10px;
 }
 .answer-add .answer-btn-2 {
