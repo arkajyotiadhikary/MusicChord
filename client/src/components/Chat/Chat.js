@@ -43,8 +43,8 @@ const Chat = ({ location }) => {
             <div className="col-xs-12 col-sm-3">
                 <div className="d-flex flex-column justify-content-between h-100">
                     <div
-                        className="card overflow-y-scroll"
-                        style={{ height: "90vh" }}
+                        className="card"
+                        style={{ height: "90vh", overflow: "scroll" }}
                     >
                         <div className="card-body p-4">
                             <h6>Online</h6>
