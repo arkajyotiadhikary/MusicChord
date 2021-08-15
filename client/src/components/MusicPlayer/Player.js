@@ -11,7 +11,6 @@ const Player = (props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log(isPlaying, await audioEl.current.play());
             if (isPlaying) await audioEl.current.play();
             else await audioEl.current.pause();
         };
