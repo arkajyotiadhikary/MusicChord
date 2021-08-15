@@ -1,0 +1,125 @@
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.u-bottomBar {
+  text-align: center;
+  position: absolute;
+  bottom: 2em;
+  width: 100%;
+}
+
+button {
+  border: 0;
+  background-color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 2px;
+}
+
+.u-posAbsoluteCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.Timer {
+  font-size: 1.5em;
+  position: relative;
+  border: 0.375em solid #fff;
+  width: 8em;
+  height: 8em;
+  border-radius: 50%;
+  padding: 0.375em;
+}
+
+.Timer:after, .Timer:before {
+  content: "";
+  display: block;
+  background-color: #fff;
+  position: absolute;
+  border-radius: 0.25em;
+}
+
+.Timer:before {
+  width: 1.5em;
+  height: 1em;
+  top: -1em;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.Timer:after {
+  width: 1em;
+  height: 0.825em;
+  top: 0.1875em;
+  right: 0.3125em;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.Timer-inner {
+  position: relative;
+  border-radius: 50%;
+  background-color: #333;
+  width: 100%;
+  height: 100%;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(50%, transparent), color-stop(0, #fff));
+  background-image: linear-gradient(to right, transparent 50%, #fff 0);
+}
+
+.Timer-inner:before {
+  content: "";
+  display: block;
+  margin-left: 50%;
+  height: 100%;
+  border-radius: 0 100% 100% 0 / 50%;
+  background-color: inherit;
+  -webkit-transform-origin: left;
+          transform-origin: left;
+}
+
+.Timer-inner.run:before {
+  -webkit-animation: rotate 30s linear 2, background 60s step-end;
+          animation: rotate 30s linear 2, background 60s step-end;
+  -webkit-animation-fill-mode: forwards, forwards;
+          animation-fill-mode: forwards, forwards;
+}
+
+@-webkit-keyframes rotate {
+  to {
+    -webkit-transform: rotate(0.5turn);
+            transform: rotate(0.5turn);
+  }
+}
+
+@keyframes rotate {
+  to {
+    -webkit-transform: rotate(0.5turn);
+            transform: rotate(0.5turn);
+  }
+}
+
+@-webkit-keyframes background {
+  50% {
+    background: #fff;
+  }
+  to {
+    background: #fff;
+  }
+}
+
+@keyframes background {
+  50% {
+    background: #fff;
+  }
+  to {
+    background: #fff;
+  }
+}
+/*# sourceMappingURL=Stopwatch.css.map */
