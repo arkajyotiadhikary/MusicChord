@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPlay,
     faPause,
-    faForward,
-    faBackward,
+    // faForward,
+    // faBackward,
 } from "@fortawesome/free-solid-svg-icons";
 
 const PlayerController = (props) => {

@@ -31,7 +31,7 @@ const MusicApp = () => {
             if (currentSongIndex + 1 > songs.length - 1) return 0;
             else return currentSongIndex + 1;
         });
-    }, [currentSongIndex]);
+    }, [currentSongIndex, songs.length]);
 
     return (
         <div className="d-flex flex-column justify-content-between h-100">

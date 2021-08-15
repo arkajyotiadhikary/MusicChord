@@ -1,23 +1,32 @@
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+
+import { signIn } from "../../apis/auth";
 
 const Signin = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const { email, password } = formData;
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
 
-        const resistered = {
-            username: username,
-            password: password,
-        };
+        signIn(formData);
 
-        axios
-            .get("http://localhost:8000/signin", resistered)
-            .then((res) => console.log(res));
-
-        setUsername("");
-        setPassword("");
+        setFormData({
+            ...formData,
+            email: "",
+            password: "",
+        });
     };
 
     return (
@@ -29,51 +38,51 @@ const Signin = () => {
                             {/* Background Image for card set in CSS */}
                         </div>
                         <div className="card-body p-4 p-sm-5">
-                            <h5 class="card-title text-center mb-5 fw-light fs-5">
+                            <h5 className="card-title text-center mb-5 fw-light fs-5">
                                 Sign In
                             </h5>
-                            <form onSubmit={() => onSubmit}>
+                            <form onSubmit={onSubmit}>
                                 <div className="form-floating mb-3">
                                     <input
-                                        type="text"
-                                        class="form-control"
+                                        type="email"
+                                        className="form-control"
                                         id="floatingInputUsername"
                                         placeholder="myusername"
                                         required
-                                        autofocus
-                                        onChange={(e) =>
-                                            setUsername(e.target.value)
-                                        }
+                                        autoFocus
+                                        name="email"
+                                        value={email}
+                                        onChange={handleChange}
                                     ></input>
-                                    <label for="floatingInputUsername">
-                                        Username
+                                    <label htmlFor="floatingInputUsername">
+                                        Email
                                     </label>
                                 </div>
 
-                                <div class="form-floating mb-3">
+                                <div className="form-floating mb-3">
                                     <input
                                         type="password"
-                                        class="form-control"
+                                        className="form-control"
                                         id="floatingPassword"
                                         placeholder="Password"
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        }
+                                        name="password"
+                                        value={password}
+                                        onChange={handleChange}
                                     />
-                                    <label for="floatingPassword">
+                                    <label htmlFor="floatingPassword">
                                         Password
                                     </label>
                                 </div>
-                                <div class="d-grid mb-2">
+                                <div className="d-grid mb-2">
                                     <button
-                                        class="btn btn-lg btn-primary btn-login fw-bold text-uppercase"
+                                        className="btn btn-lg btn-primary btn-login fw-bold text-uppercase"
                                         type="submit"
                                     >
-                                        Register
+                                        Login
                                     </button>
                                 </div>
                                 <a
-                                    class="d-block text-center mt-2 small"
+                                    className="d-block text-center mt-2 small"
                                     href="/signup"
                                 >
                                     Create an account. Sign Up
