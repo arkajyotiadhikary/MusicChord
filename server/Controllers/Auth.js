@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const User = require("../Models/SignUpModel");
 const { encrypt, decrypt } = require("../Utils/encrypt");
 
@@ -22,10 +23,22 @@ const signIn = async (req, res) => {
                 msg: "Password didn't match, check your password and retry again",
             });
         }
-        res.status(200).json({ msg: "User signed in successfully" });
+
+        const token = jwt.sign({ email }, process.env.JWT_TOKEN_KEY, {
+            expiresIn: "2h",
+        });
+
+        await User.updateOne({
+            token,
+        });
+
+        res.status(200).json({
+            msg: "User signed in successfully",
+            token,
+        });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ msg: "Error signing up!!!" });
+        res.status(500).json({ msg: "Error signing in!!!" });
     }
 };
 
@@ -37,13 +50,12 @@ const signUp = async (req, res) => {
     try {
         const hashedPassword = await encrypt(req.body.password);
 
-        const signedUpUser = new User({
+        await User.create({
             username: req.body.username,
             password: hashedPassword,
-            email: req.body.email,
+            email: req.body.email.toLowerCase(),
         });
 
-        await signedUpUser.save();
         res.status(200).json({ msg: "User signed up successfully" });
     } catch (error) {
         console.log(error, " fdhso");
@@ -51,4 +63,25 @@ const signUp = async (req, res) => {
     }
 };
 
-module.exports = { signIn, signUp };
+// Sign Up route
+// /auth/loadUser
+// Public
+
+const loadUser = async (req, res) => {
+    const { token } = req.body;
+    try {
+        const verifiedUser = jwt.verify(token, process.env.JWT_TOKEN_KEY);
+        console.log("token", verifiedUser);
+
+        res.status(200).json({
+            msg: "User loaded successfully",
+            data: verifiedUser,
+        });
+    } catch (error) {
+        // const err = error.response.msg;
+        // console.log(err);
+        res.status(500).json({ msg: "Error loading user!!!" });
+    }
+};
+
+module.exports = { signIn, signUp, loadUser };
