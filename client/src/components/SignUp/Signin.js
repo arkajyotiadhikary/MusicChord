@@ -1,14 +1,27 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { loadUser } from "../../apis/auth";
 import { signIn } from "../../apis/auth";
+import PrivateRoute from "../../router/PrivateRouter";
 
 const Signin = () => {
+    const history = useHistory();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
 
     const { email, password } = formData;
+
+    useEffect(() => {
+        const getUserDetails = async () => {
+            const loadedUser = await loadUser();
+            if (loadedUser) {
+                history.push("/main");
+            }
+        };
+        getUserDetails();
+    }, []);
 
     const handleChange = (e) => {
         setFormData({
@@ -20,7 +33,7 @@ const Signin = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        signIn(formData);
+        signIn(formData, history);
 
         setFormData({
             ...formData,

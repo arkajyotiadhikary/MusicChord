@@ -1,10 +1,13 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { loadUser } from "../../apis/auth";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 import "./Registration.css";
 
 import { signUp } from "../../apis/auth";
 
 const Signup = () => {
+    const history = useHistory();
     const [formData, setFormData] = useState({
         email: "",
         username: "",
@@ -12,6 +15,16 @@ const Signup = () => {
     });
 
     const { email, username, password } = formData;
+
+    useEffect(() => {
+        const getUserDetails = async () => {
+            const loadedUser = await loadUser();
+            if (loadedUser) {
+                history.push("/main");
+            }
+        };
+        getUserDetails();
+    }, []);
 
     const handleChange = (e) => {
         setFormData({
@@ -22,7 +35,7 @@ const Signup = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        signUp(formData);
+        signUp(formData, history);
 
         setFormData({
             ...formData,

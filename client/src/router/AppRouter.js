@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    useHistory,
-} from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 // componets
 import Chat from "../components/Chat/Chat";
 import Join from "../components/Join/Join";
@@ -13,12 +8,11 @@ import WeatherApp from "../components/Weather/WeatherApp";
 import Main from "../components/main/Main";
 import Signup from "../components/SignUp/Signup";
 import Signin from "../components/SignUp/Signin";
-
+import PrivateRoute from "./PrivateRouter";
 // Import functions
 import { loadUser } from "../apis/auth";
 
 const AppRouter = () => {
-    const history = useHistory();
     const [userDetails, setUserDetails] = useState({ userDetails: {} });
 
     useEffect(() => {
@@ -30,9 +24,6 @@ const AppRouter = () => {
                     userDetails: loadedUser.data.data,
                 });
                 console.log(userDetails);
-                history.push("/main");
-            } else {
-                history.push("/signin");
             }
         };
         getUserDetails();
@@ -46,7 +37,7 @@ const AppRouter = () => {
             <Route path="/chat" component={Chat} />
             <Route path="/weather" component={WeatherApp} />
             <Route path="/songs" component={Music} />
-            <Route path="/main" component={Main} />
+            <Route exact path="/main" component={Main} />
         </Switch>
     );
 };
