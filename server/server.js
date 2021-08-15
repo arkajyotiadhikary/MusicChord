@@ -1,8 +1,7 @@
-// import
+// import built in dependencies
 const express = require("express");
 const socketIO = require("socket.io");
 const http = require("http");
-const router = require("./router/Router");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -10,7 +9,7 @@ const cors = require("cors");
 // Import routes
 const authRoutes = require("./Router/Auth");
 
-// initialization
+// Initialize Dependencies
 dotenv.config();
 mongoose.connect(process.env.DATABASE_URI, () => {
     console.log("Database conencted");
@@ -28,7 +27,7 @@ const io = socketIO(server, {
 });
 const SocketIo = require("./SocketIo")(io);
 
-// middlewares
+// Use middlewares
 app.use(express.json());
 app.use(cors());
 app.use("/auth", authRoutes);
