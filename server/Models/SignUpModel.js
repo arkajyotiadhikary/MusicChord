@@ -5,6 +5,7 @@ const signUpTemplate = mongoose.Schema({
     password: { type: String, required: true },
     email: { type: String, required: true },
     date: { type: Date, default: Date.now() },
+    token: { type: String },
 });
 
-module.exports = mongoose.model("musicchord", signUpTemplate);
+module.exports = mongoose.model("User", signUpTemplate);

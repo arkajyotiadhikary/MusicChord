@@ -1,6 +1,5 @@
 import WeatherApp from "../Weather/WeatherApp";
 import MusicApp from "../MusicPlayer/MusicApp";
-import ButtonBar from "../MusicPlayer/WhiteNoise/ButtonBar";
 import Navbar from "../Navbar/Navbar";
 import Chat from "../Chat/Chat";
 import "./Main.css";

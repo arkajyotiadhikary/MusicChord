@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import query_string from "query-string";
-import socket_io_client from "socket.io-client";
+import React from "react";
+// import query_string from "query-string";
+// import socket_io_client from "socket.io-client";
 import Message from "./Message";
 import User from "./User";
 import "./Chat.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-let socket;
-const ENDPOINT = "localhost:8000";
+// let socket;
+// const ENDPOINT = "localhost:8000";
 
 const Chat = ({ location }) => {
     // const [name, setName] = useState("");
