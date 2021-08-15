@@ -28,10 +28,6 @@ const signIn = async (req, res) => {
             expiresIn: "2h",
         });
 
-        await User.updateOne({
-            token,
-        });
-
         res.status(200).json({
             msg: "User signed in successfully",
             token,
@@ -71,11 +67,16 @@ const loadUser = async (req, res) => {
     const { token } = req.body;
     try {
         const verifiedUser = jwt.verify(token, process.env.JWT_TOKEN_KEY);
-        console.log("token", verifiedUser);
+
+        const verifiedUserDetails = await User.findOne({
+            email: verifiedUser.email,
+        });
+
+        console.log("token", verifiedUserDetails);
 
         res.status(200).json({
             msg: "User loaded successfully",
-            data: verifiedUser,
+            data: verifiedUserDetails,
         });
     } catch (error) {
         // const err = error.response.msg;
