@@ -1,20 +1,20 @@
 const BreakLenght = () => {
     return (
-        <div class="col-md-6">
-            <div class="row">
+        <div className="col-md-6">
+            <div className="text-center">
                 <p>Break length</p>
             </div>
-            <div class="row counter">
-                <div class="col-md-4">
-                    <button class="btn btn-default" id="breakDec">
+            <div className="d-flex justify-content-between counter">
+                <div className="">
+                    <button className="btn btn-default" id="sessDec">
                         -
                     </button>
                 </div>
-                <div class="col-md-2">
-                    <div id="break"></div>
+                <div className="">
+                    <div id="session">00</div>
                 </div>
-                <div class="col-md-4">
-                    <button class="btn btn-default" id="breakInc">
+                <div class="">
+                    <button className="btn btn-default" id="sessInc">
                         +
                     </button>
                 </div>
