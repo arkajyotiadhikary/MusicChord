@@ -1,5 +1,5 @@
 import "./clock.css";
-const Clock = () => {
+const Clock = (props) => {
     return (
         <>
             <div className="timer d-flex justify-content-center my-1">
@@ -12,8 +12,8 @@ const Clock = () => {
                             r="42"
                             fill="none"
                             stroke="currentColor"
-                            stroke-width="5"
-                            stroke-dasharray="0.3 1.898"
+                            strokeWidth="5"
+                            strokeDasharray="0.3 1.898"
                         ></circle>
                         <use href="#dial" transform="scale(-1 1)"></use>
 
@@ -23,9 +23,9 @@ const Clock = () => {
                                     d="M -2.25 0 h 4.5 l -2.25 2.5 l -2.25 -2.5"
                                     fill="currentColor"
                                     stroke="currentColor"
-                                    stroke-width="1"
-                                    stroke-linejoin="round"
-                                    stroke-linecap="round"
+                                    strokeWidth="1"
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
                                 ></path>
                             </g>
                         </g>
@@ -51,33 +51,34 @@ const Clock = () => {
                                     d="M 0 -1 v -4.5"
                                     fill="none"
                                     stroke="currentColor"
-                                    stroke-width="0.4"
-                                    stroke-linejoin="round"
-                                    stroke-linecap="round"
+                                    strokeWidth="0.4"
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
                                 ></path>
                             </g>
                             <circle
                                 r="7"
                                 fill="none"
                                 stroke="currentColor"
-                                stroke-width="0.4"
+                                strokeWidth="0.4"
                             ></circle>
                             <circle
                                 r="1"
                                 fill="none"
                                 stroke="currentColor"
-                                stroke-width="0.4"
+                                strokeWidth="0.4"
                             ></circle>
                         </g>
 
                         <text
-                            text-anchor="middle"
+                            textAnchor="middle"
                             fill="currentColor"
-                            dominant-baseline="middle"
-                            font-size="10"
+                            dominantBaseline="middle"
+                            fontSize="10"
                             // style="font-weight: 300; letter-spacing: 1px;"
                         >
-                            00:00.0
+                            {props.times.hours}:{props.times.minutes}:
+                            {props.times.seconds}
                         </text>
                     </g>
                 </svg>

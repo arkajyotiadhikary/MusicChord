@@ -5,11 +5,11 @@ const SessionLenght = (props) => {
 
     useEffect(() => {
         props.setTime(sessionLenght);
-    }, [sessionLenght, props]);
+    }, [sessionLenght]);
 
     return (
         <div className="col-md-6">
-            <div class="text-center">
+            <div className="text-center">
                 <p>Session Lenght</p>
             </div>
             <div className="d-flex justify-content-between counter">
@@ -29,7 +29,7 @@ const SessionLenght = (props) => {
                 <div className="">
                     <div id="session">{sessionLenght}</div>
                 </div>
-                <div class="">
+                <div className="">
                     <button
                         onClick={() => {
                             setSessionLenght(sessionLenght + 1);

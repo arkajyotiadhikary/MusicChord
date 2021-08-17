@@ -24,7 +24,7 @@ const BreakLenght = () => {
                 <div className="">
                     <div id="session">{breakLenght}</div>
                 </div>
-                <div class="">
+                <div className="">
                     <button
                         onClick={() => {
                             setBreakLenght(breakLenght + 1);
