@@ -1,4 +1,12 @@
-const SessionLenght = () => {
+import React, { useState, useEffect } from "react";
+
+const SessionLenght = (props) => {
+    const [sessionLenght, setSessionLenght] = useState(0);
+
+    useEffect(() => {
+        props.setTime(sessionLenght);
+    }, [sessionLenght, props]);
+
     return (
         <div className="col-md-6">
             <div class="text-center">
@@ -6,15 +14,29 @@ const SessionLenght = () => {
             </div>
             <div className="d-flex justify-content-between counter">
                 <div className="">
-                    <button className="btn btn-default" id="sessDec">
+                    <button
+                        onClick={() => {
+                            const len =
+                                sessionLenght > 0 ? sessionLenght - 1 : 0;
+                            setSessionLenght(len);
+                        }}
+                        className="btn btn-default"
+                        id="sessDec"
+                    >
                         -
                     </button>
                 </div>
                 <div className="">
-                    <div id="session">00</div>
+                    <div id="session">{sessionLenght}</div>
                 </div>
                 <div class="">
-                    <button className="btn btn-default" id="sessInc">
+                    <button
+                        onClick={() => {
+                            setSessionLenght(sessionLenght + 1);
+                        }}
+                        className="btn btn-default"
+                        id="sessInc"
+                    >
                         +
                     </button>
                 </div>
