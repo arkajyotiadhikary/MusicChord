@@ -17,14 +17,16 @@ const StopwatchApp = () => {
     const [isActive, setIsActive] = useState(false);
     const [isPause, setIsPause] = useState(false);
     const countRef = useRef(null);
-    let timeInt;
+
+    const decrementTime = () => {
+        setTimeSec((timeSec) => timeSec - 1);
+    };
 
     const handleStart = () => {
-        setIsActive(true);
+        console.log("clock start");
+        setIsActive(false);
         setIsPause(true);
-        timeInt = setInterval(() => {
-            setTimeSec((timeSec) => timeSec - 1);
-        }, 1000);
+        countRef.current = setInterval(decrementTime, 1000);
     };
 
     const setTime = (time) => {
@@ -32,19 +34,20 @@ const StopwatchApp = () => {
     };
 
     const handlePause = () => {
-        clearInterval(timeInt);
-        setIsPause(true);
+        console.log("clock pause");
+
+        clearInterval(countRef.current);
+        setIsPause(false);
+        setIsActive(true);
     };
 
     const handleResume = () => {
         setIsPause(true);
-        timeInt = setInterval(() => {
-            setTimer((timer) => timer - 1);
-        }, 1000);
+        setInterval(decrementTime, 1000);
     };
 
     const handleReset = () => {
-        clearInterval(timeInt);
+        clearInterval(decrementTime);
         setIsActive(false);
         setIsPause(false);
     };
@@ -77,7 +80,12 @@ const StopwatchApp = () => {
                     <Clock timer={timer} times={times} />
                 </div>
                 <div id="buttons" className="row">
-                    <ButtonRow handleStart={handleStart} />
+                    <ButtonRow
+                        handleStart={handleStart}
+                        handlePause={handlePause}
+                        isPause={isPause}
+                        isActive={isActive}
+                    />
                 </div>
             </div>
         </div>

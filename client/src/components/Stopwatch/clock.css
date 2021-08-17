@@ -3,6 +3,11 @@
 .rotate {
     animation: rotate 60s linear infinite;
 }
+
+.small-rotate {
+    animation: rotate 60s linear infinite;
+    animation-duration: 1s;
+}
 @keyframes rotate {
     to {
         transform: rotate(1turn);

@@ -35,18 +35,14 @@ const Clock = (props) => {
                                 transform="translate(0 0)"
                                 opacity="0"
                             >
-                                <g transform="translate(0 -38)">
+                                <g transform="translate(0 -1)">
                                     <circle r="1" fill="currentColor"></circle>
                                 </g>
                             </g>
                         </g>
 
                         <g transform="translate(0 20)">
-                            <g
-                                className="rotate"
-                                transform="rotate(0)"
-                                // style="animation-duration: 1s"
-                            >
+                            <g className="small-rotate" transform="rotate(0)">
                                 <path
                                     d="M 0 -1 v -4.5"
                                     fill="none"
@@ -75,7 +71,6 @@ const Clock = (props) => {
                             fill="currentColor"
                             dominantBaseline="middle"
                             fontSize="10"
-                            // style="font-weight: 300; letter-spacing: 1px;"
                         >
                             {props.times.hours}:{props.times.minutes}:
                             {props.times.seconds}
