@@ -14,6 +14,7 @@ const WeatherApp = () => {
     const [temp, setTemp] = useState(0);
     const [wind, setWind] = useState(0);
     const [humidity, setHumidity] = useState(0);
+    const [cloud, setCloud] = useState("");
 
     let time = new Date();
     let min = time.getMinutes();
@@ -27,10 +28,18 @@ const WeatherApp = () => {
         const getWeather = async () => {
             try {
                 const response = await axios.get(Api.base + Api.key);
+                const clouds = response.data.clouds.all;
                 setWeather(response.data);
                 setTemp(response.data.main.temp - 273.15);
                 setWind(response.data.wind.speed);
                 setHumidity(response.data.main.humidity);
+                setCloud(
+                    clouds > 50
+                        ? "Cloudy"
+                        : clouds > 20
+                        ? "Partially Cloudy"
+                        : "Clear"
+                );
             } catch (error) {
                 console.log(error);
             }
@@ -38,13 +47,13 @@ const WeatherApp = () => {
         getWeather();
     }, [min]);
 
-    console.log(weather);
+    console.log("Weather", cloud);
 
     return (
         <div className="card border-0 ps-2 bg-transparent">
             <div className="card-body bg-light">
                 <h2 className="weather-header">Weather</h2>
-                <h3>Cloudy</h3>
+                <h3>{cloud}</h3>
                 <span className="h5 text-secondary">
                     Wind {wind}km/h <span className="dot">•</span> Humidity{" "}
                     {humidity}%
