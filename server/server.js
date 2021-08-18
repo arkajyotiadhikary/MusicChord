@@ -25,11 +25,15 @@ const io = socketIO(server, {
         credentials: true,
     },
 });
-const SocketIo = require("./SocketIo")(io);
+
+// Socket io connection
+io.on("connection", (socket) => {
+    console.log("new client connected");
+    socket.emit("connection", null);
+});
 
 // Use middlewares
 app.use(express.json());
-app.use(cors());
 app.use("/auth", authRoutes);
 
 const port = process.env.PORT || 8000;

@@ -53,12 +53,13 @@ const loadUser = async () => {
         console.log(signInDetails);
         return signInDetails;
     } catch (error) {
-        const err = error.response;
-        if (err.status === 400) {
-            console.log(err.data.msg);
-        }
-        console.log(error);
-        return false;
+        // TODO wrong in err
+        // const err = error.response;
+        // if (err.status === 400) {
+        //     console.log(err.data.msg);
+        // }
+        // console.log(error);
+        // return false;
     }
 };
 

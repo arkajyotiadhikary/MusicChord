@@ -13,11 +13,7 @@ const Message = (prop) => {
                 <div className="status offline"></div>
             </div>
             <div className="name">Alexander Herthic</div>
-            <div className="text">
-                Lorem ipsum dolor amet, consectetur adipisicing elit Lorem ipsum
-                dolor amet, consectetur adipisicing elit Lorem ipsum dolor amet,
-                consectetur adiping elit
-            </div>
+            <div className="text">{prop.message}</div>
             <div className="time">5 min ago</div>
         </div>
     );

@@ -77,7 +77,7 @@ const StopwatchApp = () => {
                     <BreakLenght />
                 </div>
                 <div id="clock" className="row">
-                    <Clock timer={timer} times={times} />
+                    <Clock isPause={isPause} timer={timer} times={times} />
                 </div>
                 <div id="buttons" className="row">
                     <ButtonRow

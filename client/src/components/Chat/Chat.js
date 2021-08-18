@@ -1,44 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // import query_string from "query-string";
-// import socket_io_client from "socket.io-client";
+import socket_io_client from "socket.io-client";
 import Message from "./Message";
 import User from "./User";
 import "./Chat.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-// let socket;
-// const ENDPOINT = "localhost:8000";
+// TODO why only * is working?
+const ENDPOINT = "localhost:8000";
 
-const Chat = ({ location }) => {
-    // const [name, setName] = useState("");
-    // const [room, setRoom] = useState("");
+const Chat = () => {
+    const [messages, setMessages] = useState([]);
 
-    // useEffect(() => {
-    //     const { name, room } = query_string.parse(location.search);
-    //     console.log(name, room);
+    const socketClient = socket_io_client(ENDPOINT, {
+        withCredentials: true,
+        extraHeaders: {
+            "my-custom-header": "abcd",
+        },
+    });
 
-    //     setName(name);
-    //     setRoom(room);
+    socketClient.on("connection", () => {
+        console.log("calling from new user client");
+    });
+    // useEffect(() => {}, []);
 
-    //     socket = socket_io_client(ENDPOINT, {
-    //         withCredentials: true,
-    //         extraHeaders: {
-    //             "my-custom-header": "abcd",
-    //         },
-    //     });
-
-    //     socket.emit("Join", { name, room }, ({ error }) => {
-    //         window.alert(error);
-    //     });
-
-    //     console.log(socket);
-
-    //     return () => {
-    //         socket.emit("disconnect");
-    //         socket.off();
-    //     };
-    // }, [location.search]);
+    // NOTE send messge after new user join
+    const userJoin = (data) => {
+        const newArr = messages;
+        newArr.push({
+            message: "New use has joined",
+            data,
+        });
+        setMessages(newArr);
+    };
 
     return (
         <div className="row">
@@ -70,18 +65,15 @@ const Chat = ({ location }) => {
             <div className="col-xs-12 col-sm-9">
                 <div className="d-flex flex-column justify-content-between h-100">
                     <div className="card border-0 chat overflow-y-scroll">
-                        <div className="card-body chat-body">
+                        <div className="card-body chat-body" id="messages">
                             <h6>chat</h6>
-                            <Message sender="server" />
-                            <Message sender="me" />
-                            <Message sender="me" />
-                            <Message sender="server" />
-                            <Message sender="server" />
-                            <Message sender="server" />
-                            <Message sender="me" />
-                            <Message sender="server" />
-                            <Message sender="server" />
-                            <Message sender="me" />
+                            {messages.length ? (
+                                messages.map((message) => (
+                                    <Message message={message} />
+                                ))
+                            ) : (
+                                <div className="server">No messages send</div>
+                            )}
                         </div>
                     </div>
                     <div className="card-footer d-flex bg-white border-0">

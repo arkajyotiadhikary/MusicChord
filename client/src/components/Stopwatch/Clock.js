@@ -17,7 +17,10 @@ const Clock = (props) => {
                         ></circle>
                         <use href="#dial" transform="scale(-1 1)"></use>
 
-                        <g className="rotate" transform="rotate(0)">
+                        <g
+                            className={!props.isPause ? "" : "rotate"}
+                            transform="rotate(0)"
+                        >
                             <g transform="translate(0 -50)">
                                 <path
                                     d="M -2.25 0 h 4.5 l -2.25 2.5 l -2.25 -2.5"
@@ -42,7 +45,12 @@ const Clock = (props) => {
                         </g>
 
                         <g transform="translate(0 20)">
-                            <g className="small-rotate" transform="rotate(0)">
+                            <g
+                                className={
+                                    !props.isPause ? "small-rotation" : ""
+                                }
+                                transform="rotate(0)"
+                            >
                                 <path
                                     d="M 0 -1 v -4.5"
                                     fill="none"
