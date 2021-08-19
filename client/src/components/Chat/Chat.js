@@ -12,6 +12,13 @@ import "./Chat.css";
 
 // ---
 const ENDPOINT = "localhost:8000";
+const socket = io(ENDPOINT, {
+    transports: ["websocket"],
+    withCredentials: true,
+    extraHeaders: {
+        "my-custom-header": "abcd",
+    },
+});
 
 const Chat = () => {
     //States
@@ -46,6 +53,12 @@ const Chat = () => {
     };
     // user message handler
     const handleUserMessages = (message, user, time) => {
+        socket.emit("message", {
+            message: message,
+            user: user,
+            time: time,
+        });
+
         const newMessage = {
             message: message,
             user: user,
@@ -54,17 +67,19 @@ const Chat = () => {
         setMessages((messages) => [...messages, newMessage]);
     };
 
+    const handleClientMessage = (data) => {
+        const newMessage = {
+            message: data.message,
+            user: data.user,
+            time: data.time,
+        };
+        setMessages((messages) => [...messages, newMessage]);
+    };
+
     //useEffect Hooks
     useEffect(() => {
-        const socket = io(ENDPOINT, {
-            transports: ["websocket"],
-            withCredentials: true,
-            extraHeaders: {
-                "my-custom-header": "abcd",
-            },
-        });
         socket.on("connection", () => handleUserJoin());
-        socket.on("message", () => handleUserMessages());
+        socket.on("client-message", (data) => handleClientMessage(data));
         socket.on("disconnection", () => handleUserLeave());
     }, []);
     useEffect(() => {

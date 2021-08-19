@@ -30,6 +30,9 @@ const io = socketIO(server, {
 io.on("connection", (socket) => {
     console.log("new client connected");
     io.emit("connection", null);
+    socket.on("message", (data) => {
+        socket.broadcast.emit("client-message", data);
+    });
     socket.on("disconnect", () => {
         io.emit("disconnection", null);
     });
