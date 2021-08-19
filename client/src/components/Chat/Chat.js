@@ -1,21 +1,60 @@
+//Import
 import React, { useState, useEffect } from "react";
-// import query_string from "query-string";
 import { io } from "socket.io-client";
+// !SECTION
+
+//SECTION Components
 import Message from "./Message";
 import InputPanel from "./InputPanel";
 import UserJoinMessage from "./UserJoinMessage";
 import User from "./User";
 import "./Chat.css";
 
-// TODO why only * is working?
+// ---
 const ENDPOINT = "localhost:8000";
 
 const Chat = () => {
+    //States
+    const [serverMessages, setServerMessages] = useState([]);
     const [messages, setMessages] = useState([]);
+    const [users, setUsers] = useState([]);
     const [messageList, setMessageList] = useState(<div>No messages send</div>);
+    const [userList, setUserList] = useState(<div className="userList"></div>);
 
-    // NOTE send messge after new user join
+    //Handlers
 
+    // FIXME user join. not sync with each users
+    const handleUserJoin = () => {
+        const newObj = {
+            message: "New user has joined",
+            data: null,
+        };
+        const newJoin = {
+            username: "abc",
+            profilePic: "",
+        };
+        setUsers((users) => [...users, newJoin]);
+        setServerMessages((serverMessages) => [...serverMessages, newObj]);
+    };
+    // user disconnect handler
+    const handleUserLeave = () => {
+        const newObj = {
+            message: "A user left the chat",
+            data: null,
+        };
+        setMessages((messages) => [...messages, newObj]);
+    };
+    // user message handler
+    const handleUserMessages = (message, user, time) => {
+        const newMessage = {
+            message: message,
+            user: user,
+            time: time,
+        };
+        setMessages((messages) => [...messages, newMessage]);
+    };
+
+    //useEffect Hooks
     useEffect(() => {
         const socket = io(ENDPOINT, {
             transports: ["websocket"],
@@ -24,32 +63,28 @@ const Chat = () => {
                 "my-custom-header": "abcd",
             },
         });
-        socket.on("connection", () => {
-            const newObj = {
-                message: "New user has joined",
-                data: null,
-            };
-
-            setMessages((messages) => [...messages, newObj]);
-        });
-
-        socket.on("disconnection", () => {
-            const newObj = {
-                message: "A user left the chat",
-                data: null,
-            };
-            setMessages((messages) => [...messages, newObj]);
-        });
+        socket.on("connection", () => handleUserJoin());
+        socket.on("message", () => handleUserMessages());
+        socket.on("disconnection", () => handleUserLeave());
     }, []);
+    useEffect(() => {
+        setMessageList(
+            serverMessages.map((message, index) => (
+                <UserJoinMessage key={index} props={message} />
+            ))
+        );
 
+        setUserList(users.map((user, id) => <User key={id} props={user} />));
+    }, [serverMessages, users]);
     useEffect(() => {
         setMessageList(
             messages.map((message, index) => (
-                <UserJoinMessage key={index} props={message} />
+                <Message key={index} props={message} />
             ))
         );
     }, [messages]);
 
+    //JSX
     return (
         <div className="row">
             <div className="col-xs-12 col-sm-3">
@@ -58,20 +93,7 @@ const Chat = () => {
                     <div className="card border-0 online-users bg-light">
                         <div className="card-body p-4">
                             <div className="chat-users text-center">
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
+                                {userList}
                             </div>
                         </div>
                     </div>
@@ -86,7 +108,7 @@ const Chat = () => {
                         </div>
                     </div>
                     <div className="card-footer bg-white border-0">
-                        <InputPanel />
+                        <InputPanel handleUserMessages={handleUserMessages} />
                     </div>
                 </div>
             </div>
