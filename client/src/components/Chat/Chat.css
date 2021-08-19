@@ -133,6 +133,12 @@
     line-height: 26px;
     position: relative;
 }
+.userjoinmsg .text {
+    width: 100%;
+    text-align: center;
+    border: 18px solid transparent;
+}
+
 .chat-body .answer.left .text:before {
     left: -30px;
     border-right-color: #ebebeb;

@@ -29,7 +29,10 @@ const io = socketIO(server, {
 // Socket io connection
 io.on("connection", (socket) => {
     console.log("new client connected");
-    socket.emit("connection", null);
+    io.emit("connection", null);
+    socket.on("disconnection", () => {
+        io.emit("disconnection", null);
+    });
 });
 
 // Use middlewares
