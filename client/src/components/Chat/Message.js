@@ -1,10 +1,8 @@
-const Message = (prop) => {
+const Message = ({ props }) => {
+    const { message, data } = props;
+
     return (
-        <div
-            className={
-                prop.sender === "server" ? "answer left" : "answer right"
-            }
-        >
+        <div className={data === "server" ? "answer left" : "answer right"}>
             <div className="avatar">
                 <img
                     src="https://bootdey.com/img/Content/avatar/avatar1.png"
@@ -13,7 +11,7 @@ const Message = (prop) => {
                 <div className="status offline"></div>
             </div>
             <div className="name">Alexander Herthic</div>
-            <div className="text">{prop.message}</div>
+            <div className="text">{message}</div>
             <div className="time">5 min ago</div>
         </div>
     );

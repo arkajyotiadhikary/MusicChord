@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import query_string from "query-string";
-import socket_io_client from "socket.io-client";
+import { io } from "socket.io-client";
 import Message from "./Message";
 import User from "./User";
 import "./Chat.css";
@@ -13,27 +13,24 @@ const ENDPOINT = "localhost:8000";
 const Chat = () => {
     const [messages, setMessages] = useState([]);
 
-    const socketClient = socket_io_client(ENDPOINT, {
+    // NOTE send messge after new user join
+    const socketClient = io(ENDPOINT, {
+        transports: ["websocket"],
         withCredentials: true,
         extraHeaders: {
             "my-custom-header": "abcd",
         },
     });
+    useEffect(() => {
+        socketClient.on("connection", () => {
+            const newObj = {
+                message: "New user has joined",
+                data: null,
+            };
 
-    socketClient.on("connection", () => {
-        console.log("calling from new user client");
-    });
-    // useEffect(() => {}, []);
-
-    // NOTE send messge after new user join
-    const userJoin = (data) => {
-        const newArr = messages;
-        newArr.push({
-            message: "New use has joined",
-            data,
+            setMessages((messages) => [...messages, newObj]);
         });
-        setMessages(newArr);
-    };
+    }, []);
 
     return (
         <div className="row">
@@ -68,8 +65,8 @@ const Chat = () => {
                         <div className="card-body chat-body" id="messages">
                             <h6>chat</h6>
                             {messages.length ? (
-                                messages.map((message) => (
-                                    <Message message={message} />
+                                messages.map((message, index) => (
+                                    <Message key={index} props={message} />
                                 ))
                             ) : (
                                 <div className="server">No messages send</div>
