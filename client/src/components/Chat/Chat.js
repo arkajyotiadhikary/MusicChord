@@ -1,37 +1,105 @@
+//Import
 import React, { useState, useEffect } from "react";
-// import query_string from "query-string";
 import { io } from "socket.io-client";
+// !SECTION
+
+//SECTION Components
 import Message from "./Message";
+import InputPanel from "./InputPanel";
+import UserJoinMessage from "./UserJoinMessage";
 import User from "./User";
 import "./Chat.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-// TODO why only * is working?
+// ---
 const ENDPOINT = "localhost:8000";
+const socket = io(ENDPOINT, {
+    transports: ["websocket"],
+    withCredentials: true,
+    extraHeaders: {
+        "my-custom-header": "abcd",
+    },
+});
 
 const Chat = () => {
+    //States
+    const [serverMessages, setServerMessages] = useState([]);
     const [messages, setMessages] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [messageList, setMessageList] = useState(<div>No messages send</div>);
+    const [userList, setUserList] = useState(<div className="userList"></div>);
 
-    // NOTE send messge after new user join
-    const socketClient = io(ENDPOINT, {
-        transports: ["websocket"],
-        withCredentials: true,
-        extraHeaders: {
-            "my-custom-header": "abcd",
-        },
-    });
-    useEffect(() => {
-        socketClient.on("connection", () => {
-            const newObj = {
-                message: "New user has joined",
-                data: null,
-            };
+    //Handlers
 
-            setMessages((messages) => [...messages, newObj]);
+    // FIXME user join. not sync with each users
+    const handleUserJoin = () => {
+        const newObj = {
+            message: "New user has joined",
+            data: null,
+        };
+        const newJoin = {
+            username: "abc",
+            profilePic: "",
+        };
+        setUsers((users) => [...users, newJoin]);
+        setServerMessages((serverMessages) => [...serverMessages, newObj]);
+    };
+    // user disconnect handler
+    const handleUserLeave = () => {
+        const newObj = {
+            message: "A user left the chat",
+            data: null,
+        };
+        setMessages((messages) => [...messages, newObj]);
+    };
+    // user message handler
+    const handleUserMessages = (message, user, time) => {
+        socket.emit("message", {
+            message: message,
+            user: user,
+            time: time,
         });
-    }, []);
 
+        const newMessage = {
+            message: message,
+            user: user,
+            time: time,
+        };
+        setMessages((messages) => [...messages, newMessage]);
+    };
+
+    const handleClientMessage = (data) => {
+        const newMessage = {
+            message: data.message,
+            user: data.user,
+            time: data.time,
+        };
+        setMessages((messages) => [...messages, newMessage]);
+    };
+
+    //useEffect Hooks
+    useEffect(() => {
+        socket.on("connection", () => handleUserJoin());
+        socket.on("client-message", (data) => handleClientMessage(data));
+        socket.on("disconnection", () => handleUserLeave());
+    }, []);
+    useEffect(() => {
+        setMessageList(
+            serverMessages.map((message, index) => (
+                <UserJoinMessage key={index} props={message} />
+            ))
+        );
+
+        setUserList(users.map((user, id) => <User key={id} props={user} />));
+    }, [serverMessages, users]);
+    useEffect(() => {
+        setMessageList(
+            messages.map((message, index) => (
+                <Message key={index} props={message} />
+            ))
+        );
+    }, [messages]);
+
+    //JSX
     return (
         <div className="row">
             <div className="col-xs-12 col-sm-3">
@@ -40,20 +108,7 @@ const Chat = () => {
                     <div className="card border-0 online-users bg-light">
                         <div className="card-body p-4">
                             <div className="chat-users text-center">
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
-                                <User />
+                                {userList}
                             </div>
                         </div>
                     </div>
@@ -61,27 +116,14 @@ const Chat = () => {
             </div>
             <div className="col-xs-12 col-sm-9">
                 <div className="d-flex flex-column justify-content-between h-100">
+                    <h6 className="text-center">chat</h6>
                     <div className="card border-0 chat overflow-y-scroll">
                         <div className="card-body chat-body" id="messages">
-                            <h6>chat</h6>
-                            {messages.length ? (
-                                messages.map((message, index) => (
-                                    <Message key={index} props={message} />
-                                ))
-                            ) : (
-                                <div className="server">No messages send</div>
-                            )}
+                            <div className="message-list">{messageList}</div>
                         </div>
                     </div>
-                    <div className="card-footer d-flex bg-white border-0">
-                        <input
-                            className="form-control rounded-pill"
-                            placeholder="Write a message"
-                            autoFocus
-                        />
-                        <button className="btn rounded-pill ms-3 answer-btn">
-                            <FontAwesomeIcon icon={faPaperPlane} />
-                        </button>
+                    <div className="card-footer bg-white border-0">
+                        <InputPanel handleUserMessages={handleUserMessages} />
                     </div>
                 </div>
             </div>
