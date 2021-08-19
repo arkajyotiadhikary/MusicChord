@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 // import query_string from "query-string";
 import { io } from "socket.io-client";
 import Message from "./Message";
+import InputPanel from "./InputPanel";
 import UserJoinMessage from "./UserJoinMessage";
 import User from "./User";
 import "./Chat.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 // TODO why only * is working?
 const ENDPOINT = "localhost:8000";
@@ -15,7 +14,6 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [messageList, setMessageList] = useState(<div>No messages send</div>);
 
-    let list = <div></div>;
     // NOTE send messge after new user join
 
     useEffect(() => {
@@ -32,6 +30,14 @@ const Chat = () => {
                 data: null,
             };
 
+            setMessages((messages) => [...messages, newObj]);
+        });
+
+        socket.on("disconnection", () => {
+            const newObj = {
+                message: "A user left the chat",
+                data: null,
+            };
             setMessages((messages) => [...messages, newObj]);
         });
     }, []);
@@ -79,15 +85,8 @@ const Chat = () => {
                             <div className="message-list">{messageList}</div>
                         </div>
                     </div>
-                    <div className="card-footer d-flex bg-white border-0">
-                        <input
-                            className="form-control rounded-pill"
-                            placeholder="Write a message"
-                            autoFocus
-                        />
-                        <button className="btn rounded-pill ms-3 answer-btn">
-                            <FontAwesomeIcon icon={faPaperPlane} />
-                        </button>
+                    <div className="card-footer bg-white border-0">
+                        <InputPanel />
                     </div>
                 </div>
             </div>
