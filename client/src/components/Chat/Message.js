@@ -1,8 +1,8 @@
-const Message = ({ props }) => {
-    const { message, data } = props;
+const Message = ({ chatData }) => {
+    const { type, message } = chatData;
 
     return (
-        <div className={data === "server" ? "answer left" : "answer right"}>
+        <div className={type === "selfMsg" ? "answer right" : "answer left"}>
             <div className="avatar">
                 <img
                     src="https://bootdey.com/img/Content/avatar/avatar1.png"
