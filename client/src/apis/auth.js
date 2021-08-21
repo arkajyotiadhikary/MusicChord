@@ -19,10 +19,17 @@ const signUp = async (formData, history) => {
 };
 
 const signIn = async (formData, history) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
     try {
         const signInDetails = await axios.post(
             `${endpoint}/auth/signin`,
-            formData
+            formData,
+            config
         );
 
         console.log(signInDetails);

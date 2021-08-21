@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const User = require("../Models/SignUpModel");
-const { encrypt, decrypt } = require("../Utils/encrypt");
 
 // Sign In route
 // /auth/signin
@@ -8,19 +7,12 @@ const { encrypt, decrypt } = require("../Utils/encrypt");
 
 const signIn = async (req, res) => {
     const { email, password } = req.body;
-
+    console.log(req.body);
     try {
-        const userData = await User.findOne({ email });
+        const userData = await User.findOne({ email, password });
         if (!userData) {
             res.status(400).json({
-                msg: "User didn't sign up, Sign up first",
-            });
-        }
-        const isPasswordMatched = await decrypt(password, userData.password);
-
-        if (!isPasswordMatched) {
-            res.status(400).json({
-                msg: "Password didn't match, check your password and retry again",
+                msg: "Either email or password is wrong, please check and type it correctly",
             });
         }
 
@@ -54,7 +46,7 @@ const signUp = async (req, res) => {
 
         res.status(200).json({ msg: "User signed up successfully" });
     } catch (error) {
-        console.log(error, " fdhso");
+        console.log(error);
         res.status(500).json({ msg: "Error signing up!!!" });
     }
 };
