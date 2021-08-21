@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 
 const InputPanel = (prop) => {
     const inputField = useRef(null);
+    const { handleUserMessages } = prop;
 
     const [input, setInput] = useState("");
 
@@ -11,25 +12,33 @@ const InputPanel = (prop) => {
         setInput(inputField.current.value);
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (input.length) {
+            handleUserMessages(input);
+            setInput("");
+        }
+    };
+
     return (
-        <div className="chat-input d-flex">
-            <input
-                ref={inputField}
-                onChange={handleInput}
-                value={input}
-                className="form-control rounded-pill"
-                placeholder="Write a message"
-                autoFocus
-            />
-            <button
-                className="btn rounded-pill ms-3 answer-btn"
-                onClick={() => {
-                    prop.handleUserMessages(input);
-                    setInput("");
-                }}
-            >
-                <FontAwesomeIcon icon={faPaperPlane} />
-            </button>
+        <div>
+            <form className="chat-input d-flex" onSubmit={handleSubmit}>
+                <input
+                    ref={inputField}
+                    onChange={handleInput}
+                    value={input}
+                    className="form-control rounded-pill"
+                    placeholder="Write a message"
+                    autoFocus
+                />
+                <button
+                    type="submit"
+                    className="btn rounded-pill ms-3 answer-btn"
+                >
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                </button>
+            </form>
         </div>
     );
 };

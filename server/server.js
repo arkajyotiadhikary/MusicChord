@@ -1,15 +1,17 @@
-// import built in dependencies
+// import
 const express = require("express");
 const socketIO = require("socket.io");
 const http = require("http");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const fs = require("fs");
+const ss = require("socket.io-stream");
 
 // Import routes
 const authRoutes = require("./Router/Auth");
 
-// Initialize Dependencies
+// initialization
 dotenv.config();
 mongoose.connect(process.env.DATABASE_URI, () => {
     console.log("Database conencted");
@@ -30,6 +32,11 @@ const io = socketIO(server, {
 io.on("connection", (socket) => {
     console.log("new client connected");
     io.emit("connection", null);
+    let stream = ss.createStream();
+    let filename = __dirname + "/song1.mp3";
+    ss(socket).emit("audio-stream", stream, { name: filename });
+    fs.createReadStream(filename).pipe(stream);
+
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });
@@ -38,7 +45,8 @@ io.on("connection", (socket) => {
     });
 });
 
-// Use middlewares
+// middlewares
+app.use(cors());
 app.use(express.json());
 app.use("/auth", authRoutes);
 

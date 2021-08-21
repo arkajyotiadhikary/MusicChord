@@ -23,7 +23,6 @@ const AppRouter = () => {
                     ...userDetails,
                     userDetails: loadedUser.data.data,
                 });
-                console.log(userDetails);
             }
         };
         getUserDetails();
