@@ -23,7 +23,6 @@ const StopwatchApp = () => {
     };
 
     const handleStart = () => {
-        console.log("clock start");
         setIsActive(false);
         setIsPause(true);
         countRef.current = setInterval(decrementTime, 1000);
@@ -34,23 +33,22 @@ const StopwatchApp = () => {
     };
 
     const handlePause = () => {
-        console.log("clock pause");
-
         clearInterval(countRef.current);
         setIsPause(false);
         setIsActive(true);
     };
 
-    const handleResume = () => {
-        setIsPause(true);
-        setInterval(decrementTime, 1000);
-    };
+    // TODO
+    // const handleResume = () => {
+    //     setIsPause(true);
+    //     setInterval(decrementTime, 1000);
+    // };
 
-    const handleReset = () => {
-        clearInterval(decrementTime);
-        setIsActive(false);
-        setIsPause(false);
-    };
+    // const handleReset = () => {
+    //     clearInterval(decrementTime);
+    //     setIsActive(false);
+    //     setIsPause(false);
+    // };
 
     useEffect(() => {
         setTimes({
@@ -66,8 +64,6 @@ const StopwatchApp = () => {
                     60,
         });
     }, [timeSec]);
-
-    console.log(timeSec, times.hours, times.minutes, times.seconds);
 
     return (
         <div className="card border-0 ps-2 pomodoro">

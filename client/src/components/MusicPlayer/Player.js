@@ -5,8 +5,6 @@ import SocketClient from "../Socket/SocketClient";
 import ss from "socket.io-stream";
 
 const Player = (props) => {
-    console.log(props);
-
     const audioEl = useRef(null);
 
     const [isPlaying, setIsPlaying] = useState(false);
