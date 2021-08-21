@@ -2,7 +2,6 @@
 const express = require("express");
 const socketIO = require("socket.io");
 const http = require("http");
-const router = require("./router/Router");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -40,6 +39,7 @@ io.on("connection", (socket) => {
 });
 
 // middlewares
+app.use(cors());
 app.use(express.json());
 app.use("/auth", authRoutes);
 

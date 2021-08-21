@@ -47,8 +47,6 @@ const WeatherApp = () => {
         getWeather();
     }, [min]);
 
-    console.log("Weather", cloud);
-
     return (
         <div className="card border-0 ps-2 bg-transparent">
             <div className="card-body bg-light">

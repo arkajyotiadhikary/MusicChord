@@ -3,8 +3,6 @@ import PlayerDetails from "./PlayerDetails";
 import PlayerController from "./PlayerController";
 
 const Player = (props) => {
-    console.log(props);
-
     const audioEl = useRef(null);
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -34,8 +32,6 @@ const Player = (props) => {
             });
         }
     };
-
-    // console.log(props.songs[props.currentSongIndex].src);
 
     return (
         <div className="card border-0 text-center c-player">

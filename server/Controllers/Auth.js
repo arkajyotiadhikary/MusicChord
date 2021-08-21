@@ -7,7 +7,7 @@ const User = require("../Models/SignUpModel");
 
 const signIn = async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
+
     try {
         const userData = await User.findOne({ email, password });
         if (!userData) {
@@ -25,7 +25,6 @@ const signIn = async (req, res) => {
             token,
         });
     } catch (error) {
-        console.log(error);
         res.status(500).json({ msg: "Error signing in!!!" });
     }
 };
@@ -63,8 +62,6 @@ const loadUser = async (req, res) => {
         const verifiedUserDetails = await User.findOne({
             email: verifiedUser.email,
         });
-
-        console.log("token", verifiedUserDetails);
 
         res.status(200).json({
             msg: "User loaded successfully",
