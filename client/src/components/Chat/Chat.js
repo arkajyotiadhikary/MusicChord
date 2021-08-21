@@ -53,6 +53,7 @@ const Chat = () => {
     };
     // user message handler
     const handleUserMessages = (message, user, time) => {
+        console.log(message);
         socket.emit("message", {
             message: message,
             user: user,
