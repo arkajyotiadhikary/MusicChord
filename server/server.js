@@ -5,6 +5,8 @@ const http = require("http");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const fs = require("fs");
+const ss = require("socket.io-stream");
 
 // Import routes
 const authRoutes = require("./Router/Auth");
@@ -30,6 +32,11 @@ const io = socketIO(server, {
 io.on("connection", (socket) => {
     console.log("new client connected");
     io.emit("connection", null);
+    let stream = ss.createStream();
+    let filename = __dirname + "/song1.mp3";
+    ss(socket).emit("audio-stream", stream, { name: filename });
+    fs.createReadStream(filename).pipe(stream);
+
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });

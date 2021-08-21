@@ -1,24 +1,14 @@
 //Import
 import React, { useState, useEffect } from "react";
-import { io } from "socket.io-client";
-// !SECTION
 
-//SECTION Components
 import Message from "./Message";
 import InputPanel from "./InputPanel";
 import UserJoinMessage from "./UserJoinMessage";
 import User from "./User";
 import "./Chat.css";
+import SocketClient from "../Socket/SocketClient";
 
 // ---
-const ENDPOINT = "localhost:8000";
-const socket = io(ENDPOINT, {
-    transports: ["websocket"],
-    withCredentials: true,
-    extraHeaders: {
-        "my-custom-header": "abcd",
-    },
-});
 
 const Chat = () => {
     //States
@@ -53,7 +43,7 @@ const Chat = () => {
     };
     // user message handler
     const handleUserMessages = (message, user, time) => {
-        socket.emit("message", {
+        SocketClient.emit("message", {
             message: message,
             user: user,
             time: time,
@@ -78,9 +68,10 @@ const Chat = () => {
 
     //useEffect Hooks
     useEffect(() => {
-        socket.on("connection", () => handleUserJoin());
-        socket.on("client-message", (data) => handleClientMessage(data));
-        socket.on("disconnection", () => handleUserLeave());
+        SocketClient.emit("");
+        SocketClient.on("connection", () => handleUserJoin());
+        SocketClient.on("client-message", (data) => handleClientMessage(data));
+        SocketClient.on("disconnection", () => handleUserLeave());
     }, []);
     useEffect(() => {
         setMessageList(

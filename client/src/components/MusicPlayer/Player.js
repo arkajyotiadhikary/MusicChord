@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import PlayerDetails from "./PlayerDetails";
 import PlayerController from "./PlayerController";
+import SocketClient from "../Socket/SocketClient";
+import ss from "socket.io-stream";
 
 const Player = (props) => {
     console.log(props);
@@ -9,13 +11,33 @@ const Player = (props) => {
 
     const [isPlaying, setIsPlaying] = useState(false);
 
+    // control audio stream
+    const handleAudioStream = () => {
+        ss(SocketClient).on("stream", (stream, data) => {
+            let parts = [];
+            stream.on("data", (chunk) => {
+                console.log(chunk);
+                parts.push(chunk);
+            });
+            stream.on("end", function () {
+                audioEl.src = (window.URL || window.webkitURL).createObjectURL(
+                    new Blob(parts)
+                );
+                audioEl.play();
+            });
+        });
+    };
+
+    //
+    const fetchData = async () => {
+        if (isPlaying) await audioEl.current.play();
+        else await audioEl.current.pause();
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (isPlaying) await audioEl.current.play();
-            else await audioEl.current.pause();
-        };
+        handleAudioStream();
         fetchData();
-    }, [isPlaying]);
+    });
 
     const skipSong = (forward = true) => {
         if (forward) {
@@ -35,16 +57,11 @@ const Player = (props) => {
         }
     };
 
-    // console.log(props.songs[props.currentSongIndex].src);
-
     return (
         <div className="card border-0 text-center c-player">
             <div className="card-body">
                 <div className="playerBackground"></div>
-                <audio
-                    src={props.songs[props.currentSongIndex].src}
-                    ref={audioEl}
-                ></audio>
+                <audio ref={audioEl}></audio>
                 <PlayerDetails song={props.songs[props.currentSongIndex]} />
                 <PlayerController
                     isPlaying={isPlaying}

@@ -2,6 +2,7 @@ import axios from "axios";
 
 const endpoint = "http://localhost:8000";
 
+// FIXME
 const signUp = async (formData, history) => {
     try {
         const registeredUser = await axios.post(
@@ -10,14 +11,15 @@ const signUp = async (formData, history) => {
         );
         history.push("/signin");
     } catch (error) {
+        console.log(error.response);
         const err = error.response;
         if (err.status === 400) {
             console.log(err.data.msg);
         }
-        console.log(err);
     }
 };
 
+// FIXME
 const signIn = async (formData, history) => {
     try {
         const signInDetails = await axios.post(
@@ -38,6 +40,7 @@ const signIn = async (formData, history) => {
     }
 };
 
+// FIXME Cross-Origin Prob
 const loadUser = async () => {
     const token = localStorage.getItem("token");
 

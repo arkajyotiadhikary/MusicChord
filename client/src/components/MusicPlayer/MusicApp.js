@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Player from "./Player";
-import audio1 from "./song1.mp3";
+import audio1 from "./song2.mp3";
 import audio2 from "./song2.mp3";
 import ButtonBar from "./WhiteNoise/ButtonBar";
 import "./MusicApp.css";
