@@ -14,8 +14,11 @@ const InputPanel = (prop) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleUserMessages(input);
-        setInput("");
+
+        if (input.length) {
+            handleUserMessages(input);
+            setInput("");
+        }
     };
 
     return (
