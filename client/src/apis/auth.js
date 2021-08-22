@@ -113,8 +113,8 @@ const setSession = async (type) => {
         //NOTE Storing in session storage (for each tab session storage is unique)
         sessionStorage.sessionID = sessionID;
 
-        //NOTE Store the chat room arr in cookie
-        document.cookie = `chatRoom=${chatRoom}`;
+        //NOTE Store the chat room arr in local storage
+        localStorage.setItem("chatRoom", JSON.stringify(chatRoom));
     } catch (error) {
         console.log(error.response);
         // TODO wrong in err

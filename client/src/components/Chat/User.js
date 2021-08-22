@@ -1,4 +1,8 @@
-const User = () => {
+import React from "react";
+
+const User = ({ user }) => {
+    const { username } = user;
+
     return (
         <div className="user mb-4">
             <div className="avatar mx-auto">
@@ -9,7 +13,7 @@ const User = () => {
                 />
             </div>
             <div className="status off"></div>
-            <div className="name">User name</div>
+            <div className="name"> {username} </div>
             <div className="mood">User mood</div>
         </div>
     );
