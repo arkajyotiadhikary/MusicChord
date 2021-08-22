@@ -61,7 +61,7 @@ const loadUser = async () => {
             "Content-Type": "application/json",
         },
     };
-
+    console.log("hi", token);
     const body = {
         token,
     };
@@ -72,6 +72,7 @@ const loadUser = async () => {
             body,
             config
         );
+        console.log("hi", signInDetails);
 
         return signInDetails;
     } catch (error) {
@@ -86,4 +87,44 @@ const loadUser = async () => {
     }
 };
 
-export { signUp, signIn, loadUser };
+const setSession = async (type) => {
+    const token = localStorage.getItem("token");
+
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    const body = {
+        token,
+        type,
+        sessionID: sessionStorage.sessionID,
+    };
+
+    try {
+        const cookieDetails = await axios.post(
+            `${endpoint}/auth/session`,
+            body,
+            config
+        );
+        const { sessionID, chatRoom } = cookieDetails.data.data;
+
+        //NOTE Storing in session storage (for each tab session storage is unique)
+        sessionStorage.sessionID = sessionID;
+
+        //NOTE Store the chat room arr in cookie
+        document.cookie = `chatRoom=${chatRoom}`;
+    } catch (error) {
+        console.log(error.response);
+        // TODO wrong in err
+        const err = error.response;
+        if (err.status === 400) {
+            console.log(err.data.msg);
+        }
+        console.log(error);
+        return false;
+    }
+};
+
+export { signUp, signIn, loadUser, setSession };

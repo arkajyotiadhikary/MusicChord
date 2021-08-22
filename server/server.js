@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const fs = require("fs");
 const ss = require("socket.io-stream");
+const expressSession = require("express-session");
 
 // Import routes
 const authRoutes = require("./Router/Auth");
@@ -45,8 +46,18 @@ io.on("connection", (socket) => {
     });
 });
 
+// Express session keys
+const sessionOptions = {
+    secret: "This is a test",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true, sessionID: "", chatRoom: [] },
+    chatRoom: [],
+};
+
 // middlewares
 app.use(cors());
+app.use(expressSession(sessionOptions));
 app.use(express.json());
 app.use("/auth", authRoutes);
 
