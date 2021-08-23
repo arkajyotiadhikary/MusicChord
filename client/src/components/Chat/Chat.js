@@ -7,40 +7,55 @@ import UserJoinMessage from "./UserJoinMessage";
 import User from "./User";
 import "./Chat.css";
 import SocketClient from "../Socket/SocketClient";
-
+import { getUserDetails } from "../../apis/users";
 // ---
 
 const Chat = () => {
     //States
-    const [serverMessages, setServerMessages] = useState([]);
+    // const [serverMessages, setServerMessages] = useState([]);
     const [messages, setMessages] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [messageList, setMessageList] = useState(<div>No messages send</div>);
-    const [userList, setUserList] = useState(<div className="userList"></div>);
+    const [userList, setUserList] = useState([]);
+    // const [messageList, setMessageList] = useState(<div>No messages send</div>);
+    // const [userList, setUserList] = useState(<div className="userList"></div>);
+
+    //useEffect Hooks
+    useEffect(() => {
+        const getUsers = async () => {
+            const roomUsers = JSON.parse(localStorage.getItem("chatRoom"));
+            const users = await getUserDetails(roomUsers);
+            console.log(users);
+
+            if (users && users.data.data.length) {
+                console.log(users.data.data);
+                setUserList([...users.data.data]);
+            }
+        };
+        getUsers();
+
+        SocketClient.emit("");
+        SocketClient.on("connection", () =>
+            handleUserActivity("New user has joined")
+        );
+        SocketClient.on("client-message", (data) => handleClientMessage(data));
+        SocketClient.on("disconnection", () => handleUserActivity("User left"));
+    }, []);
 
     //Handlers
 
     // FIXME user join. not sync with each users
-    const handleUserJoin = () => {
+    const handleUserActivity = (serverMsgType) => {
         const newObj = {
-            message: "New user has joined",
-            data: null,
+            type: "server",
+            message: serverMsgType,
+            data: {
+                username: "abc",
+                profilePic: "",
+            },
         };
-        const newJoin = {
-            username: "abc",
-            profilePic: "",
-        };
-        setUsers((users) => [...users, newJoin]);
-        setServerMessages((serverMessages) => [...serverMessages, newObj]);
+
+        setMessages((msg) => [...msg, newObj]);
     };
-    // user disconnect handler
-    const handleUserLeave = () => {
-        const newObj = {
-            message: "A user left the chat",
-            data: null,
-        };
-        setMessages((messages) => [...messages, newObj]);
-    };
+
     // user message handler
     const handleUserMessages = (message, user, time) => {
         SocketClient.emit("message", {
@@ -49,46 +64,34 @@ const Chat = () => {
             time: time,
         });
 
-        const newMessage = {
-            message: message,
-            user: user,
-            time: time,
+        const newObj = {
+            type: "clientMsg",
+            message,
+            data: {
+                username: "abc",
+                profilePic: "",
+                user,
+                time,
+            },
         };
-        setMessages((messages) => [...messages, newMessage]);
+
+        setMessages((messages) => [...messages, newObj]);
     };
 
     const handleClientMessage = (data) => {
-        const newMessage = {
+        const newObj = {
+            type: "selfMsg",
             message: data.message,
-            user: data.user,
-            time: data.time,
+            data: {
+                username: "abc",
+                profilePic: "",
+                user: data.user,
+                time: data.time,
+            },
         };
-        setMessages((messages) => [...messages, newMessage]);
+
+        setMessages((messages) => [...messages, newObj]);
     };
-
-    //useEffect Hooks
-    useEffect(() => {
-        SocketClient.emit("");
-        SocketClient.on("connection", () => handleUserJoin());
-        SocketClient.on("client-message", (data) => handleClientMessage(data));
-        SocketClient.on("disconnection", () => handleUserLeave());
-    }, []);
-    useEffect(() => {
-        setMessageList(
-            serverMessages.map((message, index) => (
-                <UserJoinMessage key={index} props={message} />
-            ))
-        );
-
-        setUserList(users.map((user, id) => <User key={id} props={user} />));
-    }, [serverMessages, users]);
-    useEffect(() => {
-        setMessageList(
-            messages.map((message, index) => (
-                <Message key={index} props={message} />
-            ))
-        );
-    }, [messages]);
 
     //JSX
     return (
@@ -99,7 +102,9 @@ const Chat = () => {
                     <div className="card border-0 online-users bg-light">
                         <div className="card-body p-4">
                             <div className="chat-users text-center">
-                                {userList}
+                                {userList?.map((user) => (
+                                    <User user={user} />
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -110,7 +115,17 @@ const Chat = () => {
                     <h6 className="text-center">chat</h6>
                     <div className="card border-0 chat overflow-y-scroll">
                         <div className="card-body chat-body" id="messages">
-                            <div className="message-list">{messageList}</div>
+                            <div className="message-list">
+                                {messages?.map((msg) => {
+                                    if (msg.type === "server") {
+                                        return (
+                                            <UserJoinMessage chatData={msg} />
+                                        );
+                                    } else {
+                                        return <Message chatData={msg} />;
+                                    }
+                                })}
+                            </div>
                         </div>
                     </div>
                     <div className="card-footer bg-white border-0">

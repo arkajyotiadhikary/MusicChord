@@ -7,9 +7,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const fs = require("fs");
 const ss = require("socket.io-stream");
+const expressSession = require("express-session");
 
 // Import routes
 const authRoutes = require("./Router/Auth");
+const userRoutes = require("./Router/User");
 
 // initialization
 dotenv.config();
@@ -31,24 +33,36 @@ const io = socketIO(server, {
 // Socket io connection
 io.on("connection", (socket) => {
     console.log("new client connected");
+
     io.emit("connection", null);
     let stream = ss.createStream();
     let filename = __dirname + "/song1.mp3";
     ss(socket).emit("audio-stream", stream, { name: filename });
     fs.createReadStream(filename).pipe(stream);
 
-    socket.on("message", (data) => {
+    socket.on("room", (data) => {
         socket.broadcast.emit("client-message", data);
     });
     socket.on("disconnect", () => {
         io.emit("disconnection", null);
     });
 });
+// console.log(io.sockets.clients());
+// Express session keys
+const sessionOptions = {
+    secret: "This is a test",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true, sessionID: "", chatRoom: [] },
+    chatRoom: [],
+};
 
 // middlewares
 app.use(cors());
+app.use(expressSession(sessionOptions));
 app.use(express.json());
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
 
 const port = process.env.PORT || 8000;
 

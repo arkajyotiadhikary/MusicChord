@@ -1,5 +1,5 @@
-const UserJoinMessage = ({ props }) => {
-    const { message, data } = props;
+const UserJoinMessage = ({ chatData }) => {
+    const { message, data } = chatData;
 
     return (
         <div className="userjoinmsg">
