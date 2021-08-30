@@ -11,12 +11,18 @@ const Player = (props) => {
     const audioRef = useRef(null);
     const [source, setSource] = useState("");
     const [inputSong, setInputSong] = useState("");
-    const [songId, setSongId] = useState("");
+    const [songDetail, setsongDetail] = useState({
+        songId: "",
+        thumbnail: "",
+        title: "",
+        artist: "",
+    });
+
     const inputField = useRef(null);
 
     useEffect(() => {
-        updateSong(`http://localhost:8000/music/${songId}`);
-    }, [songId]);
+        updateSong(`http://localhost:8000/music/${songDetail.songId}`);
+    }, [songDetail.songId]);
 
     const handleChange = () => {
         setInputSong(inputField.current.value);
@@ -24,8 +30,15 @@ const Player = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const _songId = await search_song(inputSong);
-        setSongId(_songId);
+        const _songDetail = await search_song(inputSong);
+        console.log(_songDetail);
+        setsongDetail((prevState) => ({
+            ...prevState,
+            songId: _songDetail.songId,
+            thumbnail: _songDetail.thumbnail,
+            title: _songDetail.title,
+            artist: _songDetail.artist,
+        }));
     };
 
     const updateSong = (source) => {
@@ -37,41 +50,22 @@ const Player = (props) => {
         }
     };
 
-    // const [isPlaying, setIsPlaying] = useState(false);
-    // const [song, setSong] = useState("");
-
-    // // control audio stream
-
-    // //
-    // const fetchData = async () => {
-    //     if (isPlaying) await audioEl.current.play();
-    //     else await audioEl.current.pause();
-    // };
-
-    // useEffect(() => {
-    //     fetchData();
-    // });
-
-    // const skipSong = (forward = true) => {
-    //     if (forward) {
-    //         props.setCurrentSongIndex(() => {
-    //             let temp = props.currentSongIndex;
-    //             temp++;
-    //             if (temp > props.songs.length - 1) temp = 0;
-    //             return temp;
-    //         });
-    //     } else {
-    //         props.setCurrentSongIndex(() => {
-    //             let temp = props.currentSongIndex;
-    //             temp--;
-    //             if (temp < 0) temp = props.songs.length - 1;
-    //             return temp;
-    //         });
-    //     }
-    // };
-
-    const handleAudio = (e) => {
-        e.play();
+    const skipSong = (forward = true) => {
+        if (forward) {
+            props.setCurrentSongIndex(() => {
+                let temp = props.currentSongIndex;
+                temp++;
+                if (temp > props.songs.length - 1) temp = 0;
+                return temp;
+            });
+        } else {
+            props.setCurrentSongIndex(() => {
+                let temp = props.currentSongIndex;
+                temp--;
+                if (temp < 0) temp = props.songs.length - 1;
+                return temp;
+            });
+        }
     };
 
     return (
@@ -90,9 +84,14 @@ const Player = (props) => {
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
             </form>
+            {/* <div className="playerBackground"></div> */}
             <div className="card border-0 text-center c-player">
                 <div className="card-body">
-                    {/* <div className="playerBackground"></div> */}
+                    <PlayerDetails
+                        img_src={songDetail.thumbnail}
+                        title={songDetail.title}
+                        artist={songDetail.artist}
+                    />
                     <audio
                         // onClick={handleAudio}
                         src={source}
@@ -100,24 +99,17 @@ const Player = (props) => {
                         controls
                         autoPlay
                         preload
-                    >
-                        {console.log(songId)}
-                    </audio>
-                    {/* {songId ? (
-                        
-                    ) : (
-                        <>nothing </>
-                    )} */}
-                    {/* <PlayerDetails song={props.songs[props.currentSongIndex]} /> */}
+                    ></audio>
+
                     <PlayerController
-                    // isPlaying={isPlaying}
-                    // setIsPlaying={setIsPlaying}
-                    // skipSong={skipSong}
+                        // isPlaying={isPlaying}
+                        // setIsPlaying={setIsPlaying}
+                        skipSong={skipSong}
                     />
                     <p>
                         <strong>Next Up</strong>{" "}
-                        {/* {props.songs[props.nextSongIndex].title} by{" "}
-                    {props.songs[props.nextSongIndex].artist} */}
+                        {props.songs[props.nextSongIndex].title} by{" "}
+                        {props.songs[props.nextSongIndex].artist}
                     </p>
                 </div>
             </div>
