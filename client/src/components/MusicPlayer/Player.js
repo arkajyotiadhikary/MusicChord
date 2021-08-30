@@ -92,25 +92,13 @@ const Player = (props) => {
                         title={songDetail.title}
                         artist={songDetail.artist}
                     />
-                    <audio
-                        // onClick={handleAudio}
-                        src={source}
-                        ref={audioRef}
-                        controls
-                        autoPlay
-                        preload
-                    ></audio>
+                    <audio src={source} ref={audioRef} autoPlay preload></audio>
 
                     <PlayerController
                         // isPlaying={isPlaying}
                         // setIsPlaying={setIsPlaying}
                         skipSong={skipSong}
                     />
-                    <p>
-                        <strong>Next Up</strong>{" "}
-                        {props.songs[props.nextSongIndex].title} by{" "}
-                        {props.songs[props.nextSongIndex].artist}
-                    </p>
                 </div>
             </div>
         </>

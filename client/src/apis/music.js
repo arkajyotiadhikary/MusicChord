@@ -17,7 +17,7 @@ const search_song = async (songName) => {
         const songId = yt_details.data.items[0].id.videoId;
         songDetail.songId = yt_details.data.items[0].id.videoId;
         songDetail.thumbnail =
-            yt_details.data.items[0].snippet.thumbnails.medium;
+            yt_details.data.items[0].snippet.thumbnails.high.url;
         songDetail.title = yt_details.data.items[0].snippet.title;
         songDetail.artist = yt_details.data.items[0].snippet.channelTitle;
         await axios.get(`${endpoint}/music/${songId}`);
