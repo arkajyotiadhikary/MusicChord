@@ -8,7 +8,8 @@ import { setSession } from "./apis/auth";
 const App = () => {
     return (
         <>
-            <button
+            {/* TODO have to add this two button in a diifferent page */}
+            {/* <button
                 class="btn btn-primary me-3"
                 onClick={() => setSession("join")}
             >
@@ -16,7 +17,7 @@ const App = () => {
             </button>
             <button class="btn btn-primary" onClick={() => setSession("leave")}>
                 Leave
-            </button>
+            </button> */}
             <Router>
                 <AppRouter />
             </Router>

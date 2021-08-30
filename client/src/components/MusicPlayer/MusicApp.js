@@ -3,6 +3,8 @@ import Player from "./Player";
 import audio1 from "./song2.mp3";
 import audio2 from "./song2.mp3";
 import ButtonBar from "./WhiteNoise/ButtonBar";
+// import SearchBar from "./SearchBar";
+
 import "./MusicApp.css";
 
 const MusicApp = () => {
@@ -35,6 +37,7 @@ const MusicApp = () => {
 
     return (
         <div className="d-flex flex-column justify-content-between h-100">
+            {/* <SearchBar /> */}
             <Player
                 currentSongIndex={currentSongIndex}
                 setCurrentSongIndex={setCurrentSongIndex}

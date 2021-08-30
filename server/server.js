@@ -12,6 +12,7 @@ const expressSession = require("express-session");
 // Import routes
 const authRoutes = require("./Router/Auth");
 const userRoutes = require("./Router/User");
+const musicRoutes = require("./Router/Music");
 
 // initialization
 dotenv.config();
@@ -63,7 +64,7 @@ app.use(expressSession(sessionOptions));
 app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-
+app.use("/music", musicRoutes);
 const port = process.env.PORT || 8000;
 
 server.listen(port, () => console.log(`server is running at ${port}`));
