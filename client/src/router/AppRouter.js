@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Chat from "../components/Chat/Chat";
 import Join from "../components/Join/Join";
 import Music from "../components/MusicPlayer/MusicApp";
-import WeatherApp from "../components/ThirdCol/Weather/WeatherApp";
+import WeatherApp from "../components/Weather/WeatherApp";
 import Main from "../components/main/Main";
 import Signup from "../components/SignUp/Signup";
 import Signin from "../components/SignUp/Signin";

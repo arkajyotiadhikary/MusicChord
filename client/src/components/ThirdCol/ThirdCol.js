@@ -1,5 +1,5 @@
-import WeatherApp from "./Weather/WeatherApp";
-import StopwatchApp from "./Stopwatch/Stopwatch";
+import WeatherApp from "../Weather/WeatherApp";
+import StopwatchApp from "../Stopwatch/Stopwatch";
 
 const ThirdCol = () => {
     return (
