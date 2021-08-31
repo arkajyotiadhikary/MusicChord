@@ -3,7 +3,7 @@ import { faStop, faPlay, faReply } from "@fortawesome/free-solid-svg-icons";
 
 const ButtonRow = (props) => {
     return (
-        <div className="d-flex justify-content-center text-sizr-1 mx-1">
+        <div className="d-flex justify-content-center  mx-1">
             <button
                 className="btn btn-sm btn-secondary mx-3"
                 onClick={props.isPause ? props.handlePause : props.handleStart}

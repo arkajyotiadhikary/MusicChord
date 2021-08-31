@@ -26,8 +26,10 @@ const PlayerController = (props) => {
                 <FontAwesomeIcon icon={props.isPlaying ? faPause : faPlay} />
             </button>
             <button
-                className="btn skip-btn"
-                onClick={() => props.skipSong(true)}
+                className={`btn ${
+                    props.isLoop ? "text-primary" : "text-secondary"
+                } skip-btn`}
+                onClick={props.handleLoop}
             >
                 <FontAwesomeIcon icon={faReply} />
             </button>

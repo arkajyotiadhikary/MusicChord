@@ -19,6 +19,7 @@ const Player = () => {
         title: "",
         artist: "",
     });
+    const [maxPlayTime, setMaxPlayTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoop, setIsLoop] = useState(false);
 
@@ -69,8 +70,11 @@ const Player = () => {
             setIsPlaying(true);
             audioRef.current.pause();
             audioRef.current.load();
+            setMaxPlayTime(audioRef.current.duration);
         }
     };
+
+    const handlePlayTime = () => {};
 
     return (
         <>
@@ -104,6 +108,15 @@ const Player = () => {
                         handleLoop={handleLoop}
                         handleVol={handleVol}
                     />
+                    {/* <div>
+                        <input
+                            type="range"
+                            min={0}
+                            max={maxPlayTime}
+                            value={audioRef.current.currentTime}
+                            className="form-range"
+                        ></input>
+                    </div> */}
                 </div>
             </div>
         </>
