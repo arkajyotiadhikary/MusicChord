@@ -38,7 +38,7 @@ const Chat = () => {
         );
         SocketClient.on("client-message", (data) => handleClientMessage(data));
         SocketClient.on("disconnection", () => handleUserActivity("User left"));
-    }, []);
+    }, [userList]);
 
     //Handlers
 

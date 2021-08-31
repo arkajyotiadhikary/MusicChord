@@ -1,8 +1,7 @@
-import WeatherApp from "../Weather/WeatherApp";
 import MusicApp from "../MusicPlayer/MusicApp";
 import Navbar from "../Navbar/Navbar";
 import Chat from "../Chat/Chat";
-import StopwatchApp from "../Stopwatch/Stopwatch";
+import ThirdCol from "../ThirdCol/ThirdCol";
 import "./Main.css";
 
 const Main = () => {
@@ -21,9 +20,8 @@ const Main = () => {
                     <div className="col-lg-3">
                         <MusicApp />
                     </div>
-                    <div className="col-lg-3 h-100">
-                        <WeatherApp />
-                        <StopwatchApp />
+                    <div className="col-lg-3 ">
+                        <ThirdCol />
                     </div>
                 </div>
             </div>

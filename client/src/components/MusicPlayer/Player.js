@@ -7,10 +7,8 @@ import { search_song } from "../../apis/music";
 
 const Player = () => {
     const audioRef = useRef(null);
-    const audioVol = useRef(null);
     const inputField = useRef(null);
 
-    const [volume, setVolume] = useState(1);
     const [source, setSource] = useState("");
     const [inputSong, setInputSong] = useState("");
     const [songDetail, setsongDetail] = useState({
@@ -19,7 +17,7 @@ const Player = () => {
         title: "",
         artist: "",
     });
-    const [maxPlayTime, setMaxPlayTime] = useState(0);
+    // const [maxPlayTime, setMaxPlayTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoop, setIsLoop] = useState(false);
 
@@ -60,7 +58,6 @@ const Player = () => {
     };
 
     const handleVol = (volume) => {
-        setVolume(volume);
         audioRef.current.volume = volume;
     };
 
@@ -70,32 +67,29 @@ const Player = () => {
             setIsPlaying(true);
             audioRef.current.pause();
             audioRef.current.load();
-            setMaxPlayTime(audioRef.current.duration);
         }
     };
 
-    const handlePlayTime = () => {};
-
     return (
         <>
-            <form onSubmit={handleSubmit} class="input-group row">
-                <div class="form-outline col-10 ">
+            <form onSubmit={handleSubmit} className="input-group row">
+                <div className="form-outline col-10 ">
                     <input
                         onChange={handleChange}
                         ref={inputField}
                         type="search"
                         id="form1"
-                        class="form-control"
+                        className="form-control"
                     />
                 </div>
-                <button type="submit" class="btn btn-primary ps-1 col-2">
+                <button type="submit" className="btn btn-primary ps-1 col-2">
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
             </form>
             {/* <div className="playerBackground"></div> */}
             <div className="card border-0 text-center c-player">
                 <div className="card-body">
-                    <audio src={source} ref={audioRef} autoPlay preload />
+                    <audio src={source} ref={audioRef} autoPlay />
                     <PlayerDetails
                         img_src={songDetail.thumbnail}
                         title={songDetail.title}
