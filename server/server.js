@@ -36,12 +36,7 @@ io.on("connection", (socket) => {
     console.log("new client connected");
 
     io.emit("connection", null);
-    let stream = ss.createStream();
-    let filename = __dirname + "/song1.mp3";
-    ss(socket).emit("audio-stream", stream, { name: filename });
-    fs.createReadStream(filename).pipe(stream);
-
-    socket.on("room", (data) => {
+    socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });
     socket.on("disconnect", () => {
