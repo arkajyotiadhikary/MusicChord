@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import PlayerDetails from "./PlayerDetails";
 import PlayerController from "./PlayerController";
-import SocketClient from "../Socket/SocketClient";
-import ss from "socket.io-stream";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { search_song } from "../../apis/music";
 
-const Player = (props) => {
+const Player = () => {
     const audioRef = useRef(null);
     const [source, setSource] = useState("");
     const [inputSong, setInputSong] = useState("");
@@ -17,7 +15,7 @@ const Player = (props) => {
         title: "",
         artist: "",
     });
-
+    const [isPlaying, setIsPlaying] = useState(false);
     const inputField = useRef(null);
 
     useEffect(() => {
@@ -41,30 +39,21 @@ const Player = (props) => {
         }));
     };
 
-    const updateSong = (source) => {
-        setSource(source);
-        if (audioRef.current) {
+    const handlePlay = () => {
+        setIsPlaying(!isPlaying);
+        if (isPlaying) {
             audioRef.current.pause();
-            audioRef.current.load();
+        } else {
             audioRef.current.play();
         }
     };
 
-    const skipSong = (forward = true) => {
-        if (forward) {
-            props.setCurrentSongIndex(() => {
-                let temp = props.currentSongIndex;
-                temp++;
-                if (temp > props.songs.length - 1) temp = 0;
-                return temp;
-            });
-        } else {
-            props.setCurrentSongIndex(() => {
-                let temp = props.currentSongIndex;
-                temp--;
-                if (temp < 0) temp = props.songs.length - 1;
-                return temp;
-            });
+    const updateSong = (source) => {
+        setSource(source);
+        if (audioRef.current) {
+            setIsPlaying(true);
+            audioRef.current.pause();
+            audioRef.current.load();
         }
     };
 
@@ -95,9 +84,9 @@ const Player = (props) => {
                     <audio src={source} ref={audioRef} autoPlay preload></audio>
 
                     <PlayerController
-                        // isPlaying={isPlaying}
+                        isPlaying={isPlaying}
+                        handlePlay={handlePlay}
                         // setIsPlaying={setIsPlaying}
-                        skipSong={skipSong}
                     />
                 </div>
             </div>
