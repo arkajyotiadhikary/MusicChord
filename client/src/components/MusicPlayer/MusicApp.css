@@ -67,7 +67,7 @@
     z-index: 10;
     display: flex;
     margin: 0 20px;
-    background-color: rgb(216, 187, 113);
+    background-color: rgb(175, 216, 235);
     color: aliceblue;
     padding: 8%;
     border-radius: 50%;
@@ -81,11 +81,19 @@
 
 .c-player--controls .skip-btn {
     background: none;
-    color: rgb(52, 88, 119);
+    color: rgb(181, 197, 211);
     border: none;
     outline: none;
-    font-size: 12px;
+    font-size: 20px;
     cursor: pointer;
+}
+
+input[type="range"] {
+    -webkit-appearance: slider-vertical; /* WebKit */
+    margin-right: 25px;
+    width: 15px;
+    height: 50px;
+    outline: none;
 }
 .playerBackground {
     background-image: url(https://media.giphy.com/media/H62NM1ab7wzMXURdoi/giphy.gif);

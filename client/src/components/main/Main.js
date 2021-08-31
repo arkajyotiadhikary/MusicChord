@@ -21,7 +21,7 @@ const Main = () => {
                     <div className="col-lg-3">
                         <MusicApp />
                     </div>
-                    <div className="col-lg-3 ">
+                    <div className="col-lg-3 h-100">
                         <WeatherApp />
                         <StopwatchApp />
                     </div>

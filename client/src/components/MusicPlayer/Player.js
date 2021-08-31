@@ -7,6 +7,10 @@ import { search_song } from "../../apis/music";
 
 const Player = () => {
     const audioRef = useRef(null);
+    const audioVol = useRef(null);
+    const inputField = useRef(null);
+
+    const [volume, setVolume] = useState(1);
     const [source, setSource] = useState("");
     const [inputSong, setInputSong] = useState("");
     const [songDetail, setsongDetail] = useState({
@@ -16,7 +20,7 @@ const Player = () => {
         artist: "",
     });
     const [isPlaying, setIsPlaying] = useState(false);
-    const inputField = useRef(null);
+    const [isLoop, setIsLoop] = useState(false);
 
     useEffect(() => {
         updateSong(`http://localhost:8000/music/${songDetail.songId}`);
@@ -24,6 +28,12 @@ const Player = () => {
 
     const handleChange = () => {
         setInputSong(inputField.current.value);
+    };
+
+    const handleLoop = () => {
+        setIsLoop(!isLoop);
+        if (isLoop) audioRef.current.loop = true;
+        else audioRef.current.loop = false;
     };
 
     const handleSubmit = async (e) => {
@@ -46,6 +56,11 @@ const Player = () => {
         } else {
             audioRef.current.play();
         }
+    };
+
+    const handleVol = (volume) => {
+        setVolume(volume);
+        audioRef.current.volume = volume;
     };
 
     const updateSong = (source) => {
@@ -76,17 +91,18 @@ const Player = () => {
             {/* <div className="playerBackground"></div> */}
             <div className="card border-0 text-center c-player">
                 <div className="card-body">
+                    <audio src={source} ref={audioRef} autoPlay preload />
                     <PlayerDetails
                         img_src={songDetail.thumbnail}
                         title={songDetail.title}
                         artist={songDetail.artist}
                     />
-                    <audio src={source} ref={audioRef} autoPlay preload></audio>
-
                     <PlayerController
                         isPlaying={isPlaying}
                         handlePlay={handlePlay}
-                        // setIsPlaying={setIsPlaying}
+                        isLoop={isLoop}
+                        handleLoop={handleLoop}
+                        handleVol={handleVol}
                     />
                 </div>
             </div>

@@ -3,7 +3,7 @@ const Clock = (props) => {
     return (
         <>
             <div className="timer d-flex justify-content-center my-1">
-                <svg viewBox="0 0 100 100" width="200" height="200">
+                <svg viewBox="0 0 100 100" width="200" height="170">
                     <g transform="translate(50 50)">
                         <circle
                             id="dial"
