@@ -31,8 +31,22 @@ const Player = () => {
 
     const handleLoop = () => {
         setIsLoop(!isLoop);
-        if (isLoop) audioRef.current.loop = true;
-        else audioRef.current.loop = false;
+        if (isLoop) {
+            if (typeof audioRef.current.loop == "boolean") {
+                audioRef.current.loop = true;
+            } else {
+                audioRef.current.addEventListener(
+                    "ended",
+                    function () {
+                        this.currentTime = 0;
+                        this.play();
+                    },
+                    false
+                );
+            }
+            audioRef.current.play();
+        }
+        return;
     };
 
     const handleSubmit = async (e) => {
