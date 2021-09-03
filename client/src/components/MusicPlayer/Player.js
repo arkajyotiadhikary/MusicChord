@@ -1,78 +1,133 @@
 import { useState, useEffect, useRef } from "react";
 import PlayerDetails from "./PlayerDetails";
 import PlayerController from "./PlayerController";
-import SocketClient from "../Socket/SocketClient";
-import ss from "socket.io-stream";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { search_song } from "../../apis/music";
 
-const Player = (props) => {
-    const audioEl = useRef(null);
+const Player = () => {
+    const audioRef = useRef(null);
+    const inputField = useRef(null);
 
+    const [source, setSource] = useState("");
+    const [inputSong, setInputSong] = useState("");
+    const [songDetail, setsongDetail] = useState({
+        songId: "",
+        thumbnail: "",
+        title: "",
+        artist: "",
+    });
+    // const [maxPlayTime, setMaxPlayTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-
-    // control audio stream
-    const handleAudioStream = () => {
-        ss(SocketClient).on("stream", (stream, data) => {
-            let parts = [];
-            stream.on("data", (chunk) => {
-                console.log(chunk);
-                parts.push(chunk);
-            });
-            stream.on("end", function () {
-                audioEl.src = (window.URL || window.webkitURL).createObjectURL(
-                    new Blob(parts)
-                );
-                audioEl.play();
-            });
-        });
-    };
-
-    //
-    const fetchData = async () => {
-        if (isPlaying) await audioEl.current.play();
-        else await audioEl.current.pause();
-    };
+    const [isLoop, setIsLoop] = useState(false);
 
     useEffect(() => {
-        handleAudioStream();
-        fetchData();
-    });
+        updateSong(`http://localhost:8000/music/${songDetail.songId}`);
+    }, [songDetail.songId]);
 
-    const skipSong = (forward = true) => {
-        if (forward) {
-            props.setCurrentSongIndex(() => {
-                let temp = props.currentSongIndex;
-                temp++;
-                if (temp > props.songs.length - 1) temp = 0;
-                return temp;
-            });
+    const handleChange = () => {
+        setInputSong(inputField.current.value);
+    };
+
+    const handleLoop = () => {
+        setIsLoop(!isLoop);
+        if (isLoop) {
+            if (typeof audioRef.current.loop == "boolean") {
+                audioRef.current.loop = true;
+            } else {
+                audioRef.current.addEventListener(
+                    "ended",
+                    function () {
+                        this.currentTime = 0;
+                        this.play();
+                    },
+                    false
+                );
+            }
+            audioRef.current.play();
+        }
+        return;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const _songDetail = await search_song(inputSong);
+        console.log(_songDetail);
+        setsongDetail((prevState) => ({
+            ...prevState,
+            songId: _songDetail.songId,
+            thumbnail: _songDetail.thumbnail,
+            title: _songDetail.title,
+            artist: _songDetail.artist,
+        }));
+    };
+
+    const handlePlay = () => {
+        setIsPlaying(!isPlaying);
+        if (isPlaying) {
+            audioRef.current.pause();
         } else {
-            props.setCurrentSongIndex(() => {
-                let temp = props.currentSongIndex;
-                temp--;
-                if (temp < 0) temp = props.songs.length - 1;
-                return temp;
-            });
+            audioRef.current.play();
+        }
+    };
+
+    const handleVol = (volume) => {
+        audioRef.current.volume = volume;
+    };
+
+    const updateSong = (source) => {
+        setSource(source);
+        if (audioRef.current) {
+            setIsPlaying(true);
+            audioRef.current.pause();
+            audioRef.current.load();
         }
     };
 
     return (
-        <div className="card border-0 text-center c-player">
-            <div className="card-body">
-                <div className="playerBackground"></div>
-                <audio ref={audioEl}></audio>
-                <PlayerDetails song={props.songs[props.currentSongIndex]} />
-                <PlayerController
-                    isPlaying={isPlaying}
-                    setIsPlaying={setIsPlaying}
-                    skipSong={skipSong}
-                />
-                <p>
-                    <strong>Next Up</strong>{" "}
-                    {props.songs[props.nextSongIndex].title} by{" "}
-                    {props.songs[props.nextSongIndex].artist}
-                </p>
+        <>
+            <form onSubmit={handleSubmit} className="input-group row">
+                <div className="form-outline col-10 ">
+                    <input
+                        onChange={handleChange}
+                        ref={inputField}
+                        type="search"
+                        id="form1"
+                        className="form-control"
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary ps-1 col-2">
+                    <FontAwesomeIcon icon={faSearch} />
+                </button>
+            </form>
+            {/* <div className="playerBackground"></div> */}
+            <div className="card border-0 text-center c-player">
+                <div className="card-body">
+                    <audio src={source} ref={audioRef} autoPlay />
+                    <PlayerDetails
+                        img_src={songDetail.thumbnail}
+                        title={songDetail.title}
+                        artist={songDetail.artist}
+                    />
+                    <PlayerController
+                        isPlaying={isPlaying}
+                        handlePlay={handlePlay}
+                        isLoop={isLoop}
+                        handleLoop={handleLoop}
+                        handleVol={handleVol}
+                    />
+                    {/* <div>
+                        <input
+                            type="range"
+                            min={0}
+                            max={maxPlayTime}
+                            value={audioRef.current.currentTime}
+                            className="form-range"
+                        ></input>
+                    </div> */}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

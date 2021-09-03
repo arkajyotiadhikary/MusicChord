@@ -12,6 +12,7 @@ const expressSession = require("express-session");
 // Import routes
 const authRoutes = require("./Router/Auth");
 const userRoutes = require("./Router/User");
+const musicRoutes = require("./Router/Music");
 
 // initialization
 dotenv.config();
@@ -35,12 +36,7 @@ io.on("connection", (socket) => {
     console.log("new client connected");
 
     io.emit("connection", null);
-    let stream = ss.createStream();
-    let filename = __dirname + "/song1.mp3";
-    ss(socket).emit("audio-stream", stream, { name: filename });
-    fs.createReadStream(filename).pipe(stream);
-
-    socket.on("room", (data) => {
+    socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });
     socket.on("disconnect", () => {
@@ -63,7 +59,7 @@ app.use(expressSession(sessionOptions));
 app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-
+app.use("/music", musicRoutes);
 const port = process.env.PORT || 8000;
 
 server.listen(port, () => console.log(`server is running at ${port}`));

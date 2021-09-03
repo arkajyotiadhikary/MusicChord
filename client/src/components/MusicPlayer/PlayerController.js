@@ -3,25 +3,36 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPlay,
     faPause,
-    // faForward,
+    faReply,
     // faBackward,
 } from "@fortawesome/free-solid-svg-icons";
 
 const PlayerController = (props) => {
     return (
         <div className="c-player--controls">
-            {/* <button className="skip-btn" onClick={() => props.skipSong(false)}>
-        <FontAwesomeIcon icon={faBackward} />
-      </button> */}
-            <button
-                onClick={() => props.setIsPlaying(!props.isPlaying)}
-                className="play-btn"
-            >
+            <div id="volume">
+                <input
+                    className="form-range "
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.02}
+                    onChange={(e) => {
+                        props.handleVol(e.target.value);
+                    }}
+                />
+            </div>
+            <button onClick={props.handlePlay} className="btn play-btn">
                 <FontAwesomeIcon icon={props.isPlaying ? faPause : faPlay} />
             </button>
-            {/* <button className="skip-btn" onClick={() => props.skipSong(true)}>
-        <FontAwesomeIcon icon={faForward} />
-      </button> */}
+            <button
+                className={`btn ${
+                    props.isLoop ? "text-primary" : "text-secondary"
+                } skip-btn`}
+                onClick={props.handleLoop}
+            >
+                <FontAwesomeIcon icon={faReply} />
+            </button>
         </div>
     );
 };
