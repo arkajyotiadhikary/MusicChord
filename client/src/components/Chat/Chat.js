@@ -7,34 +7,17 @@ import UserJoinMessage from "./UserJoinMessage";
 import User from "./User";
 import "./Chat.css";
 import SocketClient from "../Socket/SocketClient";
-import { getUserDetails } from "../../apis/users";
 // ---
 
 const Chat = () => {
     //States
-    // const [serverMessages, setServerMessages] = useState([]);
     const [messages, setMessages] = useState([]);
     const [userList, setUserList] = useState([]);
-    // const [messageList, setMessageList] = useState(<div>No messages send</div>);
-    // const [userList, setUserList] = useState(<div className="userList"></div>);
 
     const messageListDiv = useRef(null);
 
     //useEffect Hooks
     useEffect(() => {
-        // const getUsers = async () => {
-        //     const roomUsers = JSON.parse(localStorage.getItem("chatRoom"));
-        //     const users = await getUserDetails(roomUsers);
-        //     console.log(users);
-
-        //     if (users && users.data.data.length) {
-        //         console.log(users.data.data);
-        //         setUserList([...users.data.data]);
-        //     }
-        // };
-        // getUsers();
-
-        // SocketClient.emit("");
         SocketClient.on("connection", (data) => {
             setUserList([...data]);
             handleUserActivity("New user has joined");
