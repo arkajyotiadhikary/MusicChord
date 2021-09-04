@@ -33,6 +33,7 @@ const io = socketIO(server, {
 
 // Socket io connection
 const userSocketIdMap = new Map();
+let userList = [];
 
 // add new user to the user list
 const addClientToMap = (userName, socketId) => {
@@ -55,13 +56,12 @@ const removeClientFromMap = (userName, socketID) => {
     }
 };
 
-io.of("/main").on("connection", (socket) => {
+io.on("connection", (socket) => {
     console.log("new client connected");
     let userName = socket.handshake.query.userName;
-    console.log("newly conencted username", userName);
     addClientToMap(userName, socket.id);
-    console.log("User List ", userSocketIdMap);
-    io.emit("connection", null);
+    userList = [...userSocketIdMap.keys()];
+    io.emit("connection", userList);
 
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
@@ -70,7 +70,7 @@ io.of("/main").on("connection", (socket) => {
         removeClientFromMap(userName, socket.id);
         console.log("User List ", userSocketIdMap);
 
-        io.emit("disconnection", null);
+        io.emit("disconnection", userList);
     });
 });
 

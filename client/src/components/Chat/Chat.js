@@ -33,11 +33,16 @@ const Chat = () => {
         // getUsers();
 
         // SocketClient.emit("");
-        SocketClient.on("connection", () =>
-            handleUserActivity("New user has joined")
-        );
+        SocketClient.on("connection", (data) => {
+            setUserList([...data]);
+            handleUserActivity("New user has joined");
+        });
+
         SocketClient.on("client-message", (data) => handleClientMessage(data));
-        SocketClient.on("disconnection", () => handleUserActivity("User left"));
+        SocketClient.on("disconnection", (data) => {
+            handleUserActivity("User left");
+            setUserList([...data]);
+        });
     }, [userList]);
 
     //Handlers

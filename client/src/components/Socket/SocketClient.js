@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-const ENDPOINT = "localhost:8000/main";
+const ENDPOINT = "localhost:8000";
 
 const SocketClient = io(
     ENDPOINT + `?userName=${localStorage.getItem("username")}`,
