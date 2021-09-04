@@ -11,7 +11,7 @@ const expressSession = require("express-session");
 
 // Import routes
 const authRoutes = require("./Router/Auth");
-const userRoutes = require("./Router/User");
+// const userRoutes = require("./Router/User");
 const musicRoutes = require("./Router/Music");
 
 // initialization
@@ -34,15 +34,26 @@ const io = socketIO(server, {
 // Socket io connection
 io.on("connection", (socket) => {
     console.log("new client connected");
+    if (typeof socket.handshake.name != "undefined") {
+        user = {
+            name: "arka",
+        };
+    }
 
-    io.emit("connection", null);
+    io.emit("connection");
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });
     socket.on("disconnect", () => {
         io.emit("disconnection", null);
     });
+    const clients = io.sockets.sockets;
+    // const arr = [...clients].map(([name, value]) => ({ name, value }));
+    console.log(clients);
 });
+
+const clients = io.sockets.adapter.rooms;
+console.log(clients);
 // console.log(io.sockets.clients());
 // Express session keys
 const sessionOptions = {
@@ -58,7 +69,7 @@ app.use(cors());
 app.use(expressSession(sessionOptions));
 app.use(express.json());
 app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
+// app.use("/user", userRoutes);
 app.use("/music", musicRoutes);
 const port = process.env.PORT || 8000;
 
