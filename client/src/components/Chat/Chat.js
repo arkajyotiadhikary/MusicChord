@@ -20,19 +20,19 @@ const Chat = () => {
 
     //useEffect Hooks
     useEffect(() => {
-        const getUsers = async () => {
-            const roomUsers = JSON.parse(localStorage.getItem("chatRoom"));
-            const users = await getUserDetails(roomUsers);
-            console.log(users);
+        // const getUsers = async () => {
+        //     const roomUsers = JSON.parse(localStorage.getItem("chatRoom"));
+        //     const users = await getUserDetails(roomUsers);
+        //     console.log(users);
 
-            if (users && users.data.data.length) {
-                console.log(users.data.data);
-                setUserList([...users.data.data]);
-            }
-        };
-        getUsers();
+        //     if (users && users.data.data.length) {
+        //         console.log(users.data.data);
+        //         setUserList([...users.data.data]);
+        //     }
+        // };
+        // getUsers();
 
-        SocketClient.emit("");
+        // SocketClient.emit("");
         SocketClient.on("connection", () =>
             handleUserActivity("New user has joined")
         );

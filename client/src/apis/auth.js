@@ -18,10 +18,10 @@ const signUp = async (formData, history) => {
         );
         history.push("/signin");
     } catch (error) {
-        console.log(error.response);
+        console.log("Error", error.response);
         const err = error.response;
         if (err.status === 400) {
-            console.log(err.data.msg);
+            console.log("Error Message", err.data.msg);
         }
     }
 };
@@ -41,14 +41,17 @@ const signIn = async (formData, history) => {
             config
         );
 
+        console.log("Sign In Details", signInDetails);
+
         localStorage.setItem("token", signInDetails.data.token);
+        localStorage.setItem("username", signInDetails.data.username);
         history.push("/main");
     } catch (error) {
         const err = error.response;
         if (err.status === 400) {
-            console.log(err.data.msg);
+            console.log("Error Message", err.data.msg);
         }
-        console.log(err);
+        console.log("Error", err);
     }
 };
 
@@ -61,7 +64,6 @@ const loadUser = async () => {
             "Content-Type": "application/json",
         },
     };
-    console.log("hi", token);
     const body = {
         token,
     };
@@ -72,59 +74,59 @@ const loadUser = async () => {
             body,
             config
         );
-        console.log("hi", signInDetails);
+        console.log("Load User Details", signInDetails);
 
         return signInDetails;
     } catch (error) {
-        console.log(error.response);
+        console.log("Error", error.response);
         // TODO wrong in err
         const err = error.response;
         if (err.status === 400) {
-            console.log(err.data.msg);
+            console.log("Error Message", err.data.msg);
         }
-        console.log(error);
+        console.log("Error", error);
         return false;
     }
 };
 
-const setSession = async (type) => {
-    const token = localStorage.getItem("token");
+// const setSession = async (type) => {
+//     const token = localStorage.getItem("token");
 
-    const config = {
-        headers: {
-            "Content-Type": "application/json",
-        },
-    };
+//     const config = {
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     };
 
-    const body = {
-        token,
-        type,
-        sessionID: sessionStorage.sessionID,
-    };
+//     const body = {
+//         token,
+//         type,
+//         sessionID: sessionStorage.sessionID,
+//     };
 
-    try {
-        const cookieDetails = await axios.post(
-            `${endpoint}/auth/session`,
-            body,
-            config
-        );
-        const { sessionID, chatRoom } = cookieDetails.data.data;
+//     try {
+//         const cookieDetails = await axios.post(
+//             `${endpoint}/auth/session`,
+//             body,
+//             config
+//         );
+//         const { sessionID, chatRoom } = cookieDetails.data.data;
 
-        //NOTE Storing in session storage (for each tab session storage is unique)
-        sessionStorage.sessionID = sessionID;
+//         //NOTE Storing in session storage (for each tab session storage is unique)
+//         sessionStorage.sessionID = sessionID;
 
-        //NOTE Store the chat room arr in local storage
-        localStorage.setItem("chatRoom", JSON.stringify(chatRoom));
-    } catch (error) {
-        console.log(error.response);
-        // TODO wrong in err
-        const err = error.response;
-        if (err.status === 400) {
-            console.log(err.data.msg);
-        }
-        console.log(error);
-        return false;
-    }
-};
+//         //NOTE Store the chat room arr in local storage
+//         localStorage.setItem("chatRoom", JSON.stringify(chatRoom));
+//     } catch (error) {
+//         console.log(error.response);
+//         // TODO wrong in err
+//         const err = error.response;
+//         if (err.status === 400) {
+//             console.log(err.data.msg);
+//         }
+//         console.log(error);
+//         return false;
+//     }
+// };
 
-export { signUp, signIn, loadUser, setSession };
+export { signUp, signIn, loadUser };

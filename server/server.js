@@ -11,7 +11,7 @@ const expressSession = require("express-session");
 
 // Import routes
 const authRoutes = require("./Router/Auth");
-const userRoutes = require("./Router/User");
+// const userRoutes = require("./Router/User");
 const musicRoutes = require("./Router/Music");
 
 // initialization
@@ -32,17 +32,48 @@ const io = socketIO(server, {
 });
 
 // Socket io connection
-io.on("connection", (socket) => {
-    console.log("new client connected");
+const userSocketIdMap = new Map();
 
+// add new user to the user list
+const addClientToMap = (userName, socketId) => {
+    if (!userSocketIdMap.has(userName)) {
+        userSocketIdMap.set(userName, new Set([socketId]));
+    } else {
+        userSocketIdMap.get(userName).add(socketId);
+    }
+};
+
+// remove user from the user list
+const removeClientFromMap = (userName, socketID) => {
+    if (userSocketIdMap.has(userName)) {
+        let userSocketIdSet = userSocketIdMap.get(userName);
+        userSocketIdSet.delete(socketID);
+        //if there are no clients for a user, remove that user from online
+        if (userSocketIdSet.size == 0) {
+            userSocketIdMap.delete(userName);
+        }
+    }
+};
+
+io.of("/main").on("connection", (socket) => {
+    console.log("new client connected");
+    let userName = socket.handshake.query.userName;
+    console.log("newly conencted username", userName);
+    addClientToMap(userName, socket.id);
+    console.log("User List ", userSocketIdMap);
     io.emit("connection", null);
+
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });
     socket.on("disconnect", () => {
+        removeClientFromMap(userName, socket.id);
+        console.log("User List ", userSocketIdMap);
+
         io.emit("disconnection", null);
     });
 });
+
 // console.log(io.sockets.clients());
 // Express session keys
 const sessionOptions = {
@@ -58,7 +89,7 @@ app.use(cors());
 app.use(expressSession(sessionOptions));
 app.use(express.json());
 app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
+// app.use("/user", userRoutes);
 app.use("/music", musicRoutes);
 const port = process.env.PORT || 8000;
 
