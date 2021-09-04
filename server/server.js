@@ -58,10 +58,12 @@ const removeClientFromMap = (userName, socketID) => {
 
 io.on("connection", (socket) => {
     console.log("new client connected");
+
     let userName = socket.handshake.query.userName;
     addClientToMap(userName, socket.id);
     userList = [...userSocketIdMap.keys()];
     io.emit("connection", userList);
+
 
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
@@ -72,6 +74,9 @@ io.on("connection", (socket) => {
 
         io.emit("disconnection", userList);
     });
+    const clients = io.sockets.sockets;
+    // const arr = [...clients].map(([name, value]) => ({ name, value }));
+    console.log(clients);
 });
 
 // console.log(io.sockets.clients());

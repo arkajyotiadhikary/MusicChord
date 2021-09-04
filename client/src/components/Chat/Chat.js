@@ -1,5 +1,5 @@
 //Import
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import Message from "./Message";
 import InputPanel from "./InputPanel";
@@ -17,6 +17,8 @@ const Chat = () => {
     const [userList, setUserList] = useState([]);
     // const [messageList, setMessageList] = useState(<div>No messages send</div>);
     // const [userList, setUserList] = useState(<div className="userList"></div>);
+
+    const messageListDiv = useRef(null);
 
     //useEffect Hooks
     useEffect(() => {
@@ -45,6 +47,9 @@ const Chat = () => {
         });
     }, [userList]);
 
+    useEffect(() => {
+        handleScroll();
+    }, [messages]);
     //Handlers
 
     // FIXME user join. not sync with each users
@@ -81,6 +86,7 @@ const Chat = () => {
         };
 
         setMessages((messages) => [...messages, newObj]);
+        handleScroll();
     };
 
     const handleClientMessage = (data) => {
@@ -96,6 +102,12 @@ const Chat = () => {
         };
 
         setMessages((messages) => [...messages, newObj]);
+    };
+
+    const handleScroll = () => {
+        messageListDiv.current.scrollIntoView({
+            behavior: "smooth",
+        });
     };
 
     //JSX
@@ -131,6 +143,7 @@ const Chat = () => {
                                     }
                                 })}
                             </div>
+                            <div ref={messageListDiv}></div>
                         </div>
                     </div>
                     <div className="card-footer bg-white border-0">
