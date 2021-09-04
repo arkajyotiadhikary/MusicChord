@@ -22,24 +22,29 @@ const Chat = () => {
 
     //useEffect Hooks
     useEffect(() => {
-        const getUsers = async () => {
-            const roomUsers = JSON.parse(localStorage.getItem("chatRoom"));
-            const users = await getUserDetails(roomUsers);
-            console.log(users);
+        // const getUsers = async () => {
+        //     const roomUsers = JSON.parse(localStorage.getItem("chatRoom"));
+        //     const users = await getUserDetails(roomUsers);
+        //     console.log(users);
 
-            if (users && users.data.data.length) {
-                console.log(users.data.data);
-                setUserList([...users.data.data]);
-            }
-        };
-        getUsers();
+        //     if (users && users.data.data.length) {
+        //         console.log(users.data.data);
+        //         setUserList([...users.data.data]);
+        //     }
+        // };
+        // getUsers();
 
-        SocketClient.emit("");
-        SocketClient.on("connection", () =>
-            handleUserActivity("New user has joined")
-        );
+        // SocketClient.emit("");
+        SocketClient.on("connection", (data) => {
+            setUserList([...data]);
+            handleUserActivity("New user has joined");
+        });
+
         SocketClient.on("client-message", (data) => handleClientMessage(data));
-        SocketClient.on("disconnection", () => handleUserActivity("User left"));
+        SocketClient.on("disconnection", (data) => {
+            handleUserActivity("User left");
+            setUserList([...data]);
+        });
     }, [userList]);
 
     useEffect(() => {

@@ -28,6 +28,7 @@ const signIn = async (req, res) => {
         res.status(200).json({
             msg: "User signed in successfully",
             token,
+            username: hashedData.username,
         });
     } catch (error) {
         res.status(500).json({ msg: "Error signing in!!!" });
@@ -70,7 +71,7 @@ const loadUser = async (req, res) => {
 
         res.status(200).json({
             msg: "User loaded successfully",
-            data: verifiedUserDetails,
+            username: verifiedUserDetails.username,
         });
     } catch (error) {
         const err = error.response;

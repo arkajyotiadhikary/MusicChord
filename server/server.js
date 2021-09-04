@@ -32,28 +32,53 @@ const io = socketIO(server, {
 });
 
 // Socket io connection
+const userSocketIdMap = new Map();
+let userList = [];
+
+// add new user to the user list
+const addClientToMap = (userName, socketId) => {
+    if (!userSocketIdMap.has(userName)) {
+        userSocketIdMap.set(userName, new Set([socketId]));
+    } else {
+        userSocketIdMap.get(userName).add(socketId);
+    }
+};
+
+// remove user from the user list
+const removeClientFromMap = (userName, socketID) => {
+    if (userSocketIdMap.has(userName)) {
+        let userSocketIdSet = userSocketIdMap.get(userName);
+        userSocketIdSet.delete(socketID);
+        //if there are no clients for a user, remove that user from online
+        if (userSocketIdSet.size == 0) {
+            userSocketIdMap.delete(userName);
+        }
+    }
+};
+
 io.on("connection", (socket) => {
     console.log("new client connected");
-    if (typeof socket.handshake.name != "undefined") {
-        user = {
-            name: "arka",
-        };
-    }
 
-    io.emit("connection");
+    let userName = socket.handshake.query.userName;
+    addClientToMap(userName, socket.id);
+    userList = [...userSocketIdMap.keys()];
+    io.emit("connection", userList);
+
+
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });
     socket.on("disconnect", () => {
-        io.emit("disconnection", null);
+        removeClientFromMap(userName, socket.id);
+        console.log("User List ", userSocketIdMap);
+
+        io.emit("disconnection", userList);
     });
     const clients = io.sockets.sockets;
     // const arr = [...clients].map(([name, value]) => ({ name, value }));
     console.log(clients);
 });
 
-const clients = io.sockets.adapter.rooms;
-console.log(clients);
 // console.log(io.sockets.clients());
 // Express session keys
 const sessionOptions = {
