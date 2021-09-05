@@ -9,6 +9,8 @@ import "./Chat.css";
 import SocketClient from "../Socket/SocketClient";
 // ---
 
+const username = localStorage.getItem("username");
+
 const Chat = () => {
     //States
     const [messages, setMessages] = useState([]);
@@ -28,7 +30,7 @@ const Chat = () => {
             handleUserActivity("User left");
             setUserList([...data]);
         });
-    }, [userList]);
+    }, []);
 
     useEffect(() => {
         handleScroll();
@@ -60,8 +62,8 @@ const Chat = () => {
         const newObj = {
             type: "clientMsg",
             message,
-            data: {
-                username: "abc",
+            _data: {
+                username: user,
                 profilePic: "",
                 user,
                 time,
@@ -73,13 +75,13 @@ const Chat = () => {
     };
 
     const handleClientMessage = (data) => {
+        console.log("client data", data);
         const newObj = {
             type: "selfMsg",
             message: data.message,
-            data: {
-                username: "abc",
+            _data: {
+                username: data.user,
                 profilePic: "",
-                user: data.user,
                 time: data.time,
             },
         };
