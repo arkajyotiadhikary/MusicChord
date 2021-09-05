@@ -33,35 +33,29 @@ let userList = [];
 
 // add new user to the user list
 const addClientToMap = (userName, socketId) => {
-    if (!userSocketIdMap.has(userName)) {
-        userSocketIdMap.set(userName, new Set([socketId]));
-    } else {
-        userSocketIdMap.get(userName).add(socketId);
+    if (!userSocketIdMap.has(socketId)) {
+        userSocketIdMap.set(socketId, userName);
     }
 };
 
 // remove user from the user list
-const removeClientFromMap = (userName, socketID) => {
-    if (userSocketIdMap.has(userName)) {
-        let userSocketIdSet = userSocketIdMap.get(userName);
-        userSocketIdSet.delete(socketID);
-        if (userSocketIdSet.size == 0) {
-            userSocketIdMap.delete(userName);
-        }
+const removeClientFromMap = (socketID) => {
+    if (userSocketIdMap.has(socketID)) {
+        userSocketIdMap.delete(socketID);
     }
 };
 
 io.on("connection", (socket) => {
     let userName = socket.handshake.query.userName;
     addClientToMap(userName, socket.id);
-    userList = [...userSocketIdMap.keys()];
+    userList = [...userSocketIdMap.values()];
     io.emit("connection", userList);
 
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });
     socket.on("disconnect", () => {
-        removeClientFromMap(userName, socket.id);
+        removeClientFromMap(socket.id);
         console.log("User List ", userSocketIdMap);
         io.emit("disconnection", userList);
     });

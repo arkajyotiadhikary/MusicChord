@@ -23,9 +23,11 @@ const StopwatchApp = () => {
     };
 
     const handleStart = () => {
-        setIsActive(false);
-        setIsPause(true);
-        countRef.current = setInterval(decrementTime, 1000);
+        if (times.minutes !== 0) {
+            setIsActive(false);
+            setIsPause(true);
+            countRef.current = setInterval(decrementTime, 1000);
+        }
     };
 
     const setTime = (time) => {
@@ -37,18 +39,6 @@ const StopwatchApp = () => {
         setIsPause(false);
         setIsActive(true);
     };
-
-    // TODO
-    // const handleResume = () => {
-    //     setIsPause(true);
-    //     setInterval(decrementTime, 1000);
-    // };
-
-    // const handleReset = () => {
-    //     clearInterval(decrementTime);
-    //     setIsActive(false);
-    //     setIsPause(false);
-    // };
 
     useEffect(() => {
         setTimes({

@@ -9,8 +9,6 @@ import "./Chat.css";
 import SocketClient from "../Socket/SocketClient";
 // ---
 
-const username = localStorage.getItem("username");
-
 const Chat = () => {
     //States
     const [messages, setMessages] = useState([]);
@@ -27,8 +25,8 @@ const Chat = () => {
 
         SocketClient.on("client-message", (data) => handleClientMessage(data));
         SocketClient.on("disconnection", (data) => {
-            handleUserActivity("User left");
             setUserList([...data]);
+            handleUserActivity("User left");
         });
     }, []);
 
