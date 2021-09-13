@@ -7,40 +7,28 @@ import UserJoinMessage from "./UserJoinMessage";
 import User from "./User";
 import "./Chat.css";
 import SocketClient from "../Socket/SocketClient";
-import { getUserDetails } from "../../apis/users";
 // ---
 
 const Chat = () => {
     //States
-    // const [serverMessages, setServerMessages] = useState([]);
     const [messages, setMessages] = useState([]);
     const [userList, setUserList] = useState([]);
-    // const [messageList, setMessageList] = useState(<div>No messages send</div>);
-    // const [userList, setUserList] = useState(<div className="userList"></div>);
 
     const messageListDiv = useRef(null);
 
     //useEffect Hooks
     useEffect(() => {
-        const getUsers = async () => {
-            const roomUsers = JSON.parse(localStorage.getItem("chatRoom"));
-            const users = await getUserDetails(roomUsers);
-            console.log(users);
+        SocketClient.on("connection", (data) => {
+            setUserList([...data]);
+            handleUserActivity("New user has joined");
+        });
 
-            if (users && users.data.data.length) {
-                console.log(users.data.data);
-                setUserList([...users.data.data]);
-            }
-        };
-        getUsers();
-
-        SocketClient.emit("");
-        SocketClient.on("connection", () =>
-            handleUserActivity("New user has joined")
-        );
         SocketClient.on("client-message", (data) => handleClientMessage(data));
-        SocketClient.on("disconnection", () => handleUserActivity("User left"));
-    }, [userList]);
+        SocketClient.on("disconnection", (data) => {
+            setUserList([...data]);
+            handleUserActivity("User left");
+        });
+    }, []);
 
     useEffect(() => {
         handleScroll();
@@ -72,8 +60,8 @@ const Chat = () => {
         const newObj = {
             type: "clientMsg",
             message,
-            data: {
-                username: "abc",
+            _data: {
+                username: user,
                 profilePic: "",
                 user,
                 time,
@@ -85,13 +73,13 @@ const Chat = () => {
     };
 
     const handleClientMessage = (data) => {
+        console.log("client data", data);
         const newObj = {
             type: "selfMsg",
             message: data.message,
-            data: {
-                username: "abc",
+            _data: {
+                username: data.user,
                 profilePic: "",
-                user: data.user,
                 time: data.time,
             },
         };

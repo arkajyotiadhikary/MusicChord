@@ -5,13 +5,9 @@ const http = require("http");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const fs = require("fs");
-const ss = require("socket.io-stream");
-const expressSession = require("express-session");
 
 // Import routes
 const authRoutes = require("./Router/Auth");
-// const userRoutes = require("./Router/User");
 const musicRoutes = require("./Router/Music");
 
 // initialization
@@ -32,44 +28,43 @@ const io = socketIO(server, {
 });
 
 // Socket io connection
-io.on("connection", (socket) => {
-    console.log("new client connected");
-    if (typeof socket.handshake.name != "undefined") {
-        user = {
-            name: "arka",
-        };
-    }
+const userSocketIdMap = new Map();
+let userList = [];
 
-    io.emit("connection");
+// add new user to the user list
+const addClientToMap = (userName, socketId) => {
+    if (!userSocketIdMap.has(socketId)) {
+        userSocketIdMap.set(socketId, userName);
+    }
+};
+
+// remove user from the user list
+const removeClientFromMap = (socketID) => {
+    if (userSocketIdMap.has(socketID)) {
+        userSocketIdMap.delete(socketID);
+    }
+};
+
+io.on("connection", (socket) => {
+    let userName = socket.handshake.query.userName;
+    addClientToMap(userName, socket.id);
+    userList = [...userSocketIdMap.values()];
+    io.emit("connection", userList);
+
     socket.on("message", (data) => {
         socket.broadcast.emit("client-message", data);
     });
     socket.on("disconnect", () => {
-        io.emit("disconnection", null);
+        removeClientFromMap(socket.id);
+        console.log("User List ", userSocketIdMap);
+        io.emit("disconnection", userList);
     });
-    const clients = io.sockets.sockets;
-    // const arr = [...clients].map(([name, value]) => ({ name, value }));
-    console.log(clients);
 });
-
-const clients = io.sockets.adapter.rooms;
-console.log(clients);
-// console.log(io.sockets.clients());
-// Express session keys
-const sessionOptions = {
-    secret: "This is a test",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true, sessionID: "", chatRoom: [] },
-    chatRoom: [],
-};
 
 // middlewares
 app.use(cors());
-app.use(expressSession(sessionOptions));
 app.use(express.json());
 app.use("/auth", authRoutes);
-// app.use("/user", userRoutes);
 app.use("/music", musicRoutes);
 const port = process.env.PORT || 8000;
 

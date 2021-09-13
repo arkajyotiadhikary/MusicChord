@@ -90,7 +90,7 @@
 
 #volume > input[type="range"] {
     -webkit-appearance: slider-vertical;
-    -moz-appearance: slider-vertical; /* WebKit */
+    -moz-appearance: slider-vertical;
 
     margin-right: 25px;
     width: 15px;

@@ -13,9 +13,14 @@ const Navbar = () => {
                 />
                 <h1 className="h3 ms-2">Music Chord</h1>
             </div>
-            <button className="btn bg-secondary ms-auto be-2 rounded-circle">
-                <FontAwesomeIcon className="text-white" icon={faUser} />
-            </button>
+            <div className="d-flex ms-auto be-2">
+                <p className="h5 pt-2 me-3">
+                    {localStorage.getItem("username")}
+                </p>
+                <button className="btn bg-secondary rounded-circle">
+                    <FontAwesomeIcon className="text-white" icon={faUser} />
+                </button>
+            </div>
         </nav>
     );
 };

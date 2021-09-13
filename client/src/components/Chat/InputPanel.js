@@ -16,7 +16,7 @@ const InputPanel = (prop) => {
         e.preventDefault();
 
         if (input.length) {
-            handleUserMessages(input);
+            handleUserMessages(input, localStorage.getItem("username"));
             setInput("");
         }
     };
