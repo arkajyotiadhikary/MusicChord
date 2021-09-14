@@ -8,6 +8,7 @@ import WeatherApp from "../components/Weather/WeatherApp";
 import Main from "../components/main/Main";
 import Signup from "../components/SignUp/Signup";
 import Signin from "../components/SignUp/Signin";
+import ProfileCard from "../components/Navbar/ProfileCard";
 // Import functions
 import { loadUser } from "../apis/auth";
 
@@ -34,6 +35,8 @@ const AppRouter = () => {
             <Route path="/" exact component={Join} />
             <Route path="/chat" component={Chat} />
             <Route path="/weather" component={WeatherApp} />
+            <Route path="/ProfileCard" component={ProfileCard} />
+
             <Route path="/songs" component={Music} />
             <Route exact path="/main" component={Main} />
         </Switch>
