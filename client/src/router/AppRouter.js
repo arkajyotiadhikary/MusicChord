@@ -9,6 +9,7 @@ import Main from "../components/main/Main";
 import Signup from "../components/SignUp/Signup";
 import Signin from "../components/SignUp/Signin";
 import ProfileCard from "../components/Navbar/ProfileCard";
+import LandingPage from "../components/Landing Page/LandingPage";
 // Import functions
 import { loadUser } from "../apis/auth";
 
@@ -32,7 +33,7 @@ const AppRouter = () => {
         <Switch>
             <Route path="/signin" component={Signin} />
             <Route path="/signup" component={Signup} />
-            <Route path="/" exact component={Join} />
+            <Route path="/" exact component={LandingPage} />
             <Route path="/chat" component={Chat} />
             <Route path="/weather" component={WeatherApp} />
             <Route path="/ProfileCard" component={ProfileCard} />
