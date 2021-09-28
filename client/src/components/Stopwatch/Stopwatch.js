@@ -61,7 +61,7 @@ const StopwatchApp = () => {
             setIsActive(false);
             setIsPause(false);
             setTimeSec(min * 60);
-            setSessions(sessions - 1);
+            sessions !== 0 ? setSessions(sessions - 1) : setSessions(0);
             clearInterval(countRef.current);
         }
     }, [timeSec]);

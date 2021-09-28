@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 const Sessions = (props) => {
-    // const [sessions, setSessions] = useState(0);
-
-    // useEffect(() => {
-    //     props.setSessions(sessions);
-    // }, [sessions]);
-
     return (
         <div className="col-md-6">
             <div className="text-center">
