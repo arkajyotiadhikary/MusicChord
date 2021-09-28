@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const BreakLenght = () => {
-    const [breakLenght, setBreakLenght] = useState(0);
+const Sessions = (props) => {
+    // const [sessions, setSessions] = useState(0);
+
+    // useEffect(() => {
+    //     props.setSessions(sessions);
+    // }, [sessions]);
 
     return (
         <div className="col-md-6">
             <div className="text-center">
-                <p>Break length</p>
+                <p>Sessions</p>
             </div>
             <div className="d-flex justify-content-between counter">
                 <div className="">
                     <button
                         onClick={() => {
-                            const len = breakLenght > 0 ? breakLenght - 1 : 0;
-                            setBreakLenght(len);
+                            const len =
+                                props.sessions > 0 ? props.sessions - 1 : 0;
+                            props.setSessions(len);
                         }}
                         className="btn btn-default"
                         id="sessDec"
@@ -22,12 +27,12 @@ const BreakLenght = () => {
                     </button>
                 </div>
                 <div className="">
-                    <div id="session">{breakLenght}</div>
+                    <div id="session">{props.sessions}</div>
                 </div>
                 <div className="">
                     <button
                         onClick={() => {
-                            setBreakLenght(breakLenght + 1);
+                            props.setSessions(props.sessions + 1);
                         }}
                         className="btn btn-default"
                         id="sessInc"
@@ -40,4 +45,4 @@ const BreakLenght = () => {
     );
 };
 
-export default BreakLenght;
+export default Sessions;

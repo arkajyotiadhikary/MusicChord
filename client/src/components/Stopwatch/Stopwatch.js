@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Stopwatch.css";
-import BreakLenght from "./BreakLenght";
+import Sessions from "./Sessions";
 import SessionLenght from "./SessionLenght";
 import Clock from "./Clock";
 import ButtonRow from "./ButtonRow";
@@ -11,7 +11,9 @@ const StopwatchApp = () => {
         minutes: 0,
         seconds: 0,
     });
+    const [sessions, setSessions] = useState(0);
     const [timer, setTimer] = useState(0);
+    const [min, setMin] = useState(0);
     const [timeSec, setTimeSec] = useState(0);
 
     const [isActive, setIsActive] = useState(false);
@@ -31,6 +33,7 @@ const StopwatchApp = () => {
     };
 
     const setTime = (time) => {
+        setMin(time);
         setTimeSec(time * 60);
     };
 
@@ -53,17 +56,30 @@ const StopwatchApp = () => {
                 Math.floor((timeSec - Math.floor(timeSec / 3600) * 3600) / 60) *
                     60,
         });
+
+        if (timeSec <= 0) {
+            setIsActive(false);
+            setIsPause(false);
+            setTimeSec(min * 60);
+            setSessions(sessions - 1);
+            clearInterval(countRef.current);
+        }
     }, [timeSec]);
 
     return (
         <div className="card border-0 ps-2 pomodoro">
             <div className="card-body">
                 <div className="row">
+                    <Sessions sessions={sessions} setSessions={setSessions} />
                     <SessionLenght setTime={setTime} />
-                    <BreakLenght />
                 </div>
                 <div id="clock" className="row">
-                    <Clock isPause={isPause} timer={timer} times={times} />
+                    <Clock
+                        sessions={sessions}
+                        isPause={isPause}
+                        timer={timer}
+                        times={times}
+                    />
                 </div>
                 <div id="buttons" className="row">
                     <ButtonRow
