@@ -10,7 +10,7 @@ const Button = (prop) => {
     return (
         <button
             className={`btn btn-light shadow ${
-                useBtn ? "bg-primary text-white" : "bg-white text-primary"
+                useBtn ? "bg-secondary text-white" : "bg-white text-secondary"
             } rounded-circle`}
             type="Submit"
             onClick={handleClick}
