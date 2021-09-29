@@ -1,8 +1,16 @@
+import {useHistory} from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ProfileCard from "./ProfileCard";
 
 const Navbar = () => {
+    const history = useHistory();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        history.push('/signin');
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -53,6 +61,9 @@ const Navbar = () => {
                                     <ProfileCard />
                                 </div>
                             </ul>
+                        </li>
+                        <li className="nav-item ms-3">
+                            <button className="btn btn-outline-primary" onClick={handleLogout}>Logout</button>
                         </li>
                     </ul>
                 </div>
