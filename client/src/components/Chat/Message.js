@@ -12,7 +12,7 @@ const Message = ({ chatData }) => {
             </div>
             <div className="name">{_data.username}</div>
             <div className="text">{message}</div>
-            <div className="time">5 min ago</div>
+            {/* <div className="time">5 min ago</div> */}
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ProfileCard from "./ProfileCard";
@@ -7,9 +7,9 @@ const Navbar = () => {
     const history = useHistory();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        history.push('/signin');
-    }
+        localStorage.removeItem("token");
+        history.push("/signin");
+    };
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -23,7 +23,7 @@ const Navbar = () => {
                     />
                     <h1 className="h3 ms-2">Music Chord</h1>
                 </a>
-                <button
+                {/* <button
                     className="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
@@ -33,13 +33,13 @@ const Navbar = () => {
                     aria-label="Toggle navigation"
                 >
                     <span className="navbar-toggler-icon"></span>
-                </button>
+                </button> */}
                 <div
                     className="collapse navbar-collapse"
                     id="navbarSupportedContent"
                 >
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li className="nav-item dropdown  bg-secondary rounded-circle px-1">
+                        {/* <li className="nav-item dropdown  bg-secondary rounded-circle px-1">
                             <a
                                 className="nav-link"
                                 href="google.com"
@@ -61,9 +61,14 @@ const Navbar = () => {
                                     <ProfileCard />
                                 </div>
                             </ul>
-                        </li>
+                        </li> */}
                         <li className="nav-item ms-3">
-                            <button className="btn btn-outline-primary" onClick={handleLogout}>Logout</button>
+                            <button
+                                className="btn btn-outline-primary"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
                         </li>
                     </ul>
                 </div>
