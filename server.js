@@ -67,7 +67,7 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/music", musicRoutes);
 
-// heroku
+// NOTE heroku deploy
 if (process.env.NODE_ENV === "production") {
     // Set static folder
     app.use(express.static("client/build"));

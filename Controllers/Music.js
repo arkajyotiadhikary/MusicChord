@@ -1,8 +1,6 @@
 const ytdl = require("ytdl-core");
 const fs = require("fs");
 
-let playSong = fs.createWriteStream("./song.mp3");
-
 const yt_audio = async (req, res) => {
     const { songId } = req.params;
     console.log(songId);
