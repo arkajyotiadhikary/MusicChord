@@ -6,7 +6,7 @@ import InputPanel from "./InputPanel";
 import UserJoinMessage from "./UserJoinMessage";
 import User from "./User";
 import "./Chat.css";
-import SocketClient from "../Socket/SocketClient";
+import SocketClient from "../socket/SocketClient";
 // ---
 
 const Chat = () => {

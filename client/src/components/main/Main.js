@@ -1,7 +1,7 @@
-import MusicApp from "../MusicPlayer/MusicApp";
-import Navbar from "../Navbar/Navbar";
-import Chat from "../Chat/Chat";
-import ThirdCol from "../ThirdCol/ThirdCol";
+import MusicApp from "../music-player/MusicApp";
+import Navbar from "../navbar/Navbar";
+import Chat from "../chat/Chat";
+import ThirdCol from "../thirdCol/ThirdCol";
 import "./Main.css";
 
 const Main = () => {
