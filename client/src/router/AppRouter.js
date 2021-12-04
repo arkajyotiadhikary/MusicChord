@@ -4,8 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Chat from "../components/chat/Chat";
 import MusicApp from "../components/music-player/MusicApp";
 import WeatherApp from "../components/weather/WeatherApp";
-// import Main from "../components/main/Main";
-import Main_Modified from "../components/main/Main_Modified";
+import Main from "../components/main/Main";
 import Signup from "../components/signUp/Signup";
 import Signin from "../components/signUp/Signin";
 import ProfileCard from "../components/navbar/ProfileCard";
@@ -40,7 +39,7 @@ const AppRouter = () => {
             <Route path="/ProfileCard" component={ProfileCard} />
 
             <Route path="/songs" component={MusicApp} />
-            <Route exact path="/main" component={Main_Modified} />
+            <Route exact path="/main" component={Main} />
         </Switch>
     );
 };
